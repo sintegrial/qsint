@@ -40,6 +40,28 @@ public:
     explicit PlotterBase(QWidget *parent = 0);
 
 
+    /// Sets title text.
+    /// \since 0.3
+    void setTitle(const QString& title);
+    /// Retrieves title text.
+    /// \since 0.3
+    inline QString title() const { return m_title; }
+
+    /// Sets title pen.
+    /// \since 0.3
+    void setTitlePen(const QPen& titlePen);
+    /// Retrieves title pen.
+    /// \since 0.3
+    inline QPen titlePen() const { return m_titlePen; }
+
+    /// Sets title font.
+    /// \since 0.3
+    void setTitleFont(const QFont& titleFont);
+    /// Retrieves title font.
+    /// \since 0.3
+    inline QFont titleFont() const { return m_titleFont; }
+
+
     /// Sets pen of the plotter's border to \a pen.
     void setBorderPen(const QPen &pen);
     /// Retrieves plotter's border pen.
@@ -59,29 +81,43 @@ public:
     void setItemPen(const QPen &pen);
     inline const QPen& itemPen() const { return m_itemPen; }
 
+
+    /// Enables/disables highlighting when mouse is over.
+    /// \since 0.3
+    void enableHighlight(bool on);
+    /// Checks if mouse highlighting enabled.
+    /// \since 0.3
+    bool isHighlightEnabled() const { return m_highlight; }
+
     /// Sets color of the highlighted data item text to \a color.
+    /// Only applied if isHighlightEnabled() returns true (see enableHighlight()).
     void setHighlightTextColor(const QColor &color);
     /// Retrieves highlighted data item text color.
     inline const QColor& highlightTextColor() const { return m_hlTextColor; }
 
     /// Sets pen of the highlighted data item to \a pen.
+    /// Only applied if isHighlightEnabled() returns true (see enableHighlight()).
     void setHighlightPen(const QPen &pen);
     /// Retrieves highlighted data item pen.
     inline const QPen& highlightPen() const { return m_hlPen; }
 
     /// Sets brush of the highlighted data item to \a brush.
+    /// Only applied if isHighlightEnabled() returns true (see enableHighlight()).
     void setHighlightBrush(const QBrush &brush);
     /// Retrieves highlighted data item brush.
     inline const QBrush& highlightBrush() const { return m_hlBrush; }
 
     /// Sets opacity of the highlighted data item to \a alpha.
     /// Value should be in ranges between 0.1 and 1.0, 1.0 is the default.
+    /// Only applied if isHighlightEnabled() returns true (see enableHighlight()).
     void setHighlightAlpha(double alpha);
     /// Retrieves highlighted data item opacity.
     inline double highlightAlpha() const { return m_hlAlpha; }
 
 
+    /// Sets format of the text returned by formattedValue().
     void setTextFormat(const QString& textFormat);
+    /// Retrieves format of the text used by formattedValue().
     QString textFormat() const { return m_textFormat; }
 
 
@@ -102,7 +138,7 @@ public:
 
 
     /// Retrieves data rectangle (excluding margins and axes).
-    QRect dataRect() const;
+    virtual QRect dataRect() const;
 
     /// Retrieves current mouse cursor position in local coordinates.
     const QPoint& mousePos() const { return m_mousePos; }
@@ -141,6 +177,9 @@ protected:
     virtual void drawBackground(QPainter &p);
     /// Draws default foreground of the plotter.
     virtual void drawForeground(QPainter &p);
+    /// Draws title of the plotter.
+    /// \since 0.3
+    virtual void drawTitle(QPainter &p);
     /// Draws axes of the plotter.
     virtual void drawAxes(QPainter &p);
     /// Draws content of the plotter.
@@ -165,8 +204,13 @@ protected:
     QPen m_hlPen;
     QBrush m_hlBrush;
     double m_hlAlpha;
+    bool m_highlight;
 
     QString m_textFormat;
+
+    QString m_title;
+    QFont m_titleFont;
+    QPen m_titlePen;
 
     QPixmap m_buffer;
     bool m_repaint;

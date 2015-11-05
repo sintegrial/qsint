@@ -10,7 +10,8 @@ PlotterBase::PlotterBase(QWidget *parent) :
     QWidget(parent),
     m_model(0),
     m_repaint(true),
-    m_antiAliasing(false)
+    m_antiAliasing(false),
+    m_highlight(false)
 {
     m_axisX = m_axisY = 0;
 
@@ -29,51 +30,91 @@ PlotterBase::PlotterBase(QWidget *parent) :
 }
 
 
+void PlotterBase::setTitle(const QString &title)
+{
+    m_title = title;
+
+    update();
+}
+
+
+void PlotterBase::setTitlePen(const QPen &titlePen)
+{
+    m_titlePen = titlePen;
+
+    update();
+}
+
+
+void PlotterBase::setTitleFont(const QFont &titleFont)
+{
+    m_titleFont = titleFont;
+
+    update();
+}
+
+
 void PlotterBase::setBorderPen(const QPen &pen)
 {
     m_pen = pen;
+
+    update();
 }
 
 
 void PlotterBase::setBackground(const QBrush &brush)
 {
     m_bg = brush;
+
+    update();
 }
 
 
 void PlotterBase::setItemPen(const QPen &pen)
 {
     m_itemPen = pen;
+
+    update();
 }
 
 
 void PlotterBase::setFont(const QFont &font)
 {
     m_font = font;
+
+    update();
 }
 
 
 void PlotterBase::setHighlightTextColor(const QColor &color)
 {
     m_hlTextColor = color;
+
+    update();
 }
 
 
 void PlotterBase::setHighlightPen(const QPen &pen)
 {
     m_hlPen = pen;
+
+    update();
 }
 
 
 void PlotterBase::setHighlightBrush(const QBrush &brush)
 {
     m_hlBrush = brush;
+
+    update();
 }
 
 
 void PlotterBase::setHighlightAlpha(double alpha)
 {
     m_hlAlpha = alpha;
+
+    update();
 }
 
 
@@ -94,6 +135,12 @@ QRect PlotterBase::dataRect() const
 
     if (m_axisY)
         p_rect.setLeft(p_rect.left() + m_axisY->offset());
+
+    if (!m_title.isEmpty())
+    {
+        QRect textRect = QFontMetrics(m_titleFont).boundingRect(m_title);
+        p_rect.setTop(textRect.height() + 8);   // 4px extra margin
+    }
 
     return p_rect;
 }
@@ -217,6 +264,8 @@ void PlotterBase::paintEvent(QPaintEvent *)
 
     drawBackground(p);
 
+    drawTitle(p);
+
     drawAxes(p);
 
     drawContent(p);
@@ -233,10 +282,26 @@ void PlotterBase::drawBackground(QPainter &p)
 
 void PlotterBase::drawForeground(QPainter &p)
 {
+    // surrounding border
     p.setOpacity(1);
     p.setPen(m_pen);
     p.setBrush(Qt::NoBrush);
     p.drawRect(rect().adjusted(0,0,-1,-1));
+}
+
+
+void PlotterBase::drawTitle(QPainter &p)
+{
+    if (!m_title.isEmpty())
+    {
+        QRect titleRect(rect());
+        titleRect.setBottom(dataRect().top()-1);
+
+        p.setOpacity(1);
+        p.setPen(m_titlePen);
+        p.setFont(m_titleFont);
+        p.drawText(titleRect, Qt::AlignCenter, m_title);
+    }
 }
 
 

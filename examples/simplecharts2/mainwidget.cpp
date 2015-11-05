@@ -14,7 +14,7 @@ MainWidget::MainWidget(QWidget *parent) :
     // data model
     QStandardItemModel* itemModel = new QStandardItemModel(7, 6, this);
     itemModel->setHorizontalHeaderLabels(QStringList() <<
-                                         "2007" << "2008" << "2009" << "2010" << "2011" << "2012");
+                                         "2010" << "2011" << "2012" << "2013" << "2014" << "2015");
     itemModel->setVerticalHeaderLabels(QStringList() <<
                                        "Water" << "Coal" << "Oil" << "Sand" << "Stone" << "Wood" << "Concrete");
     itemModel->setHeaderData(0, Qt::Vertical, QColor(Qt::red), Qt::BackgroundRole);
@@ -47,8 +47,14 @@ MainWidget::MainWidget(QWidget *parent) :
     //bg.setColorAt(0.2, Qt::black);
     bg.setColorAt(1, QColor(0x111111));
 
-    ui->Chart1->setBackground(QBrush(bg));
+    /****************************************************
+     *  Stacked Chart
+     ****************************************************/
     ui->Chart1->setModel(itemModel);
+    ui->Chart1->setTitle("Stacked Barchart");
+    ui->Chart1->setTitlePen(QPen(Qt::white));
+    ui->Chart1->setTitleFont(QFont("Arial", 12));
+    ui->Chart1->setBackground(QBrush(bg));
     ui->Chart1->setBarType(QSint::BarChartPlotter::Stacked);
     ui->Chart1->setBarOpacity(0.95);
     ui->Chart1->setZeroLinePen(QPen(0xffa500));
@@ -71,6 +77,12 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(ui->Chart1, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(showTooltip1(const QModelIndex&)));
 
+    /****************************************************
+     *  Pie Chart
+     ****************************************************/
+    ui->Chart2->setTitle("Pie Chart");
+    ui->Chart2->setTitlePen(QPen(Qt::green));
+    ui->Chart2->setTitleFont(QFont("Arial", 12));
     ui->Chart2->setBackground(QBrush(bg));
     ui->Chart2->setModel(itemModel);
     ui->Chart2->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
@@ -81,8 +93,14 @@ MainWidget::MainWidget(QWidget *parent) :
     connect(ui->Chart1, SIGNAL(clicked(const QModelIndex&)),
             ui->Chart2, SLOT(setActiveIndex(const QModelIndex&)));
 
+    /****************************************************
+     *  Trend Chart
+     ****************************************************/
     ui->Chart3->setBackground(QBrush(bg));
     ui->Chart3->setModel(itemModel);
+    ui->Chart3->setTitle("Trend Chart");
+    ui->Chart3->setTitlePen(QPen(Qt::cyan));
+    ui->Chart3->setTitleFont(QFont("Arial", 12));
     ui->Chart3->setBarType(QSint::BarChartPlotter::Trend);
     ui->Chart3->setZeroLinePen(QPen(0xffa500));
     ui->Chart3->axisY()->setRanges(-20, 20);
@@ -96,8 +114,14 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->Chart3->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
     ui->Chart3->setHighlightBrush(QBrush(QColor(0xffa500)));
 
+    /****************************************************
+     *  Column Chart
+     ****************************************************/
     ui->Chart4->setBackground(QBrush(bg));
     ui->Chart4->setModel(itemModel);
+    ui->Chart4->setTitle("Column Barchart");
+    ui->Chart4->setTitlePen(QPen(Qt::green));
+    ui->Chart4->setTitleFont(QFont("Arial", 12));
     ui->Chart4->setBarType(QSint::BarChartPlotter::Columns);
     ui->Chart4->setZeroLinePen(QPen(0xffa500));
     ui->Chart4->setBarScale(0.75);
@@ -113,6 +137,12 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->Chart4->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
     ui->Chart4->setHighlightBrush(QBrush(QColor(0xffa500)));
 
+    /****************************************************
+     *  Ring Chart
+     ****************************************************/
+    ui->Chart5->setTitle("Ring Chart");
+    ui->Chart5->setTitlePen(QPen(Qt::green));
+    ui->Chart5->setTitleFont(QFont("Arial", 12));
 	ui->Chart5->setBackground(QBrush(bg));
     ui->Chart5->setModel(itemModel);
     ui->Chart5->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));

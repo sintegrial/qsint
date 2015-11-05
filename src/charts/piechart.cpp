@@ -55,8 +55,10 @@ void PieChart::setActiveIndex(const QModelIndex &index)
 
 void PieChart::drawContent(QPainter &p)
 {
-    int w = width() - m_margin*2;
-    int h = height() - m_margin*2;
+    QRect dr(dataRect());
+
+    int w = dr.width() - m_margin*2;
+    int h = dr.height() - m_margin*2;
 
     int wh = qMin(w,h);
     int wh2 = wh / 2;
@@ -64,7 +66,7 @@ void PieChart::drawContent(QPainter &p)
     int dx2 = (w - wh) / 2;
     int dy2 = (h - wh) / 2;
 
-    QRect pieRect = QRect(dx2+m_margin, dy2+m_margin, wh, wh);
+    QRect pieRect = QRect(dx2+m_margin, dy2+m_margin+dr.top(), wh, wh);
 
     p.drawEllipse(pieRect);
 
@@ -197,8 +199,8 @@ void PieChart::drawValue(QPainter &p, const QRect& pieRect,
     // text (angle CCW in radians)
     double cr = pieRect.height()/4 + pieRect.height()/8;
     double textAngle = (360 - angle1 - angle2/2) * M_PI / 180;
-    double tx = cr * cos(textAngle) + rect().center().x();
-    double ty = cr * sin(textAngle) + rect().center().y();
+    double tx = cr * cos(textAngle) + pieRect.center().x();
+    double ty = cr * sin(textAngle) + pieRect.center().y();
 
     if (isHighlighted)
     {

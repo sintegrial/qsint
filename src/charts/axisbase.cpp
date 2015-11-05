@@ -156,7 +156,11 @@ void AxisBase::draw(QPainter &p)
 void AxisBase::drawAxisData(QPainter &p)
 {
     PlotterBase *plotter = (PlotterBase*)parent();
-    QRect rect(plotter->contentsRect());
+
+    QRect dataRect(plotter->dataRect());
+
+    p.setFont(m_font);
+    QFontMetrics fm(m_font);
 
     double start = m_min;
     double end = m_max;
@@ -188,7 +192,7 @@ void AxisBase::drawAxisData(QPainter &p)
                         if (m_minorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_minorGridPen);
-                            p.drawLine(m_offset+2, p_d, rect.right(), p_d);
+                            p.drawLine(m_offset+2, p_d, dataRect.right(), p_d);
                         }
                     }
                 }
@@ -212,12 +216,11 @@ void AxisBase::drawAxisData(QPainter &p)
                         if (m_majorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_majorGridPen);
-                            p.drawLine(m_offset+2, p_d, rect.right(), p_d);
+                            p.drawLine(m_offset+2, p_d, dataRect.right(), p_d);
                         }
                     }
 
                     QString text(QString::number(i));
-                    QFontMetrics fm(m_font);
                     QRect textRect(fm.boundingRect(text));
 
                     int h = textRect.height();
@@ -239,7 +242,7 @@ void AxisBase::drawAxisData(QPainter &p)
         case Qt::Horizontal:
         {
             p.setPen(m_pen);
-            p.drawLine(p_start, rect.height()-m_offset, p_end, rect.height()-m_offset);
+            p.drawLine(p_start, dataRect.bottom(), p_end, dataRect.bottom());
 
             if (m_minor > 1e-100)
             {
@@ -253,12 +256,12 @@ void AxisBase::drawAxisData(QPainter &p)
                     {
                         prevTick = p_d;
                         p.setPen(m_minorPen);
-                        p.drawLine(p_d, rect.height()-m_offset+1, p_d, rect.height()-m_offset+3);
+                        p.drawLine(p_d, dataRect.bottom()+1, p_d, dataRect.bottom()+3);
 
                         if (m_minorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_minorGridPen);
-                            p.drawLine(p_d, rect.top(), p_d, rect.height()-m_offset);
+                            p.drawLine(p_d, dataRect.top(), p_d, dataRect.bottom());
                         }
                     }
                 }
@@ -277,21 +280,20 @@ void AxisBase::drawAxisData(QPainter &p)
                     {
                         prevTick = p_d;
                         p.setPen(m_majorPen);
-                        p.drawLine(p_d, rect.height()-m_offset+0, p_d, rect.height()-m_offset+4);
+                        p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom()+4);
 
                         if (m_majorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_majorGridPen);
-                            p.drawLine(p_d, rect.top(), p_d, rect.height()-m_offset);
+                            p.drawLine(p_d, dataRect.top(), p_d, dataRect.bottom());
                         }
                     }
 
                     QString text(QString::number(i));
-                    QFontMetrics fm(m_font);
                     QRect textRect(fm.boundingRect(text));
 
                     int w = textRect.width();
-                    QRect drawRect(p_d - w/2, rect.height()-m_offset+3, w, m_offset);
+                    QRect drawRect(p_d - w/2, dataRect.bottom()+3, w, m_offset);
 
                     // skip paining the text
                     if (prevRect.isValid() && prevRect.intersects(drawRect))
@@ -312,10 +314,13 @@ void AxisBase::drawAxisData(QPainter &p)
 void AxisBase::drawAxisModel(QPainter &p)
 {
     PlotterBase *plotter = (PlotterBase*)parent();
-    QRect rect(plotter->contentsRect());
+    QRect dataRect(plotter->dataRect());
 
     int p_start, p_end;
     calculatePoints(p_start, p_end);
+
+    p.setFont(m_font);
+    QFontMetrics fm(m_font);
 
     switch (m_orient)
     {
@@ -334,7 +339,7 @@ void AxisBase::drawAxisModel(QPainter &p)
         case Qt::Horizontal:
         {
             p.setPen(m_pen);
-            p.drawLine(p_start, rect.height()-m_offset, p_end, rect.height()-m_offset);
+            p.drawLine(p_start, dataRect.bottom(), p_end, dataRect.bottom());
 
             if (m_model)
             {
@@ -353,21 +358,20 @@ void AxisBase::drawAxisModel(QPainter &p)
                     int p_d = d * (p_end - p_start) + p_start + p_offs/2;
 
                     p.setPen(m_majorPen);
-                    p.drawLine(p_d, rect.height()-m_offset+0, p_d, rect.height()-m_offset+4);
+                    p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom()+4);
 
                     if (m_majorGridPen != Qt::NoPen)
                     {
                         p.setPen(m_majorGridPen);
-                        p.drawLine(p_line_d, rect.top(), p_line_d, rect.height()-m_offset);
+                        p.drawLine(p_line_d, dataRect.top(), p_line_d, dataRect.bottom());
                         p_line_d += p_offs;
                     }
 
                     QString text(m_model->headerData(i, m_orient).toString());
-                    QFontMetrics fm(m_font);
                     QRect textRect(fm.boundingRect(text));
 
                     int w = textRect.width() + 4;
-                    QRect drawRect(p_d - w/2, rect.height()-m_offset+3, w, m_offset);
+                    QRect drawRect(p_d - w/2, dataRect.bottom()+3, w, m_offset);
 
                     // skip paining the text
                     if (prevRect.isValid() && prevRect.intersects(drawRect))
