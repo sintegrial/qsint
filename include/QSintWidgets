@@ -1,0 +1,3 @@
+#include "../src/widgets/colorbutton.h"
+#include "../src/widgets/colorgrid.h"
+#include "../src/widgets/ledwidget.h"

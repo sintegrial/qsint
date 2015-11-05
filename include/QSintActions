@@ -1,0 +1,7 @@
+#include "../src/actions/actiongroup.h"
+#include "../src/actions/actionpanel.h"
+#include "../src/actions/actionpanelscheme.h"
+#include "../src/actions/winxppanelscheme.h"
+#include "../src/actions/winvistapanelscheme.h"
+#include "../src/actions/macpanelscheme.h"
+#include "../src/actions/androidpanelscheme.h"
