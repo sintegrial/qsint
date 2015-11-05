@@ -1,3 +1,5 @@
+#include "../src/actions/actionbox.h"
+#include "../src/actions/actionlabel.h"
 #include "../src/actions/actiongroup.h"
 #include "../src/actions/actionpanel.h"
 #include "../src/actions/actionpanelscheme.h"

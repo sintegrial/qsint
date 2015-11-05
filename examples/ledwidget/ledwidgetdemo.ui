@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>LedWidgetDemo</class>
+ <widget class="QWidget" name="LedWidgetDemo">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>LedWidgetDemo</string>
+  </property>
+  <layout class="QGridLayout" name="gridLayout">
+   <item row="0" column="0">
+    <widget class="QSint::LedWidget" name="LED1" native="true"/>
+   </item>
+   <item row="0" column="1" rowspan="3">
+    <widget class="QSint::LedWidget" name="LED4" native="true"/>
+   </item>
+   <item row="1" column="0">
+    <widget class="QSint::LedWidget" name="LED2" native="true"/>
+   </item>
+   <item row="2" column="0">
+    <widget class="QSint::LedWidget" name="LED3" native="true"/>
+   </item>
+  </layout>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>QSint::LedWidget</class>
+   <extends>QWidget</extends>
+   <header location="global">QSintWidgets</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>
