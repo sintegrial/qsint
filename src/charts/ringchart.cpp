@@ -13,6 +13,8 @@ RingChart::RingChart(QWidget *parent) :
     setAntiAliasing(true);
 
     m_margin = 3;
+
+    m_valuesAlwaysShown = false;
 }
 
 
@@ -38,9 +40,9 @@ void RingChart::drawContent(QPainter &p)
     int wh2 = wh / 2;
 
     int dx2 = (w - wh) / 2;
-    int dy2 = (h - wh) / 2;
+    int dy2 = dr.top() + (h - wh) / 2;
 
-    QRect pieRect = QRect(dx2+m_margin, dy2+m_margin+dr.top(), wh, wh);
+    QRect pieRect = QRect(dx2+m_margin, dy2+m_margin, wh, wh);
 
     //p.drawEllipse(pieRect);
 
@@ -146,7 +148,7 @@ void RingChart::drawRing(QPainter &p, const QPoint &center, int ring, int /*radi
             else
             {            
 				drawSegment(p, pieRect, index, value, startAngle, angle, false);
-                drawValue(p, pieRect, index, value, startAngle, angle, false);
+                //drawValue(p, pieRect, index, value, startAngle, angle, false);
             }
 
             startAngle += angle;

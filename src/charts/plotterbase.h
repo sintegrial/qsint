@@ -115,11 +115,17 @@ public:
     inline double highlightAlpha() const { return m_hlAlpha; }
 
 
-    /// Sets format of the text returned by formattedValue().
+    /// Sets format of the value text returned by formattedValue().
     void setTextFormat(const QString& textFormat);
-    /// Retrieves format of the text used by formattedValue().
+    /// Retrieves format of the value text used by formattedValue().
     QString textFormat() const { return m_textFormat; }
 
+    /// Enables/disables showing of the values (when not highlighted).
+    /// \since 0.3
+    void showValuesAlways(bool on);
+    /// Checks if showing of the values (when not highlighted) enabled.
+    /// \since 0.3
+    bool valuesAlwaysShown() const { return m_valuesAlwaysShown; }
 
     /// Enables (\a set=true, the default) or disables (\a set=false) painter's antialiasing.
     inline void setAntiAliasing(bool set) { m_antiAliasing = set;}
@@ -207,6 +213,7 @@ protected:
     bool m_highlight;
 
     QString m_textFormat;
+    bool m_valuesAlwaysShown;
 
     QString m_title;
     QFont m_titleFont;

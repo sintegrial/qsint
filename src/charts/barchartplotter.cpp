@@ -151,7 +151,7 @@ void BarChartPlotter::drawValue(QPainter &p, QRect rect,
 
     QRect textRect(p.fontMetrics().boundingRect(text));
 
-/*    switch (barType())
+    switch (barType())
     {
         case Columns:
             if (value < 0)
@@ -176,8 +176,10 @@ void BarChartPlotter::drawValue(QPainter &p, QRect rect,
                 QRect frameRect = drawHighlightedValueFrame(p, rect, textRect);
                 drawValueText(p, frameRect, flags, true, index, text);
             }
-            else
-                drawValueText(p, rect, flags, isHighlighted, index, text);
+            else if (m_valuesAlwaysShown)
+            {
+               drawValueText(p, rect, flags, false, index, text);
+            }
 
             break;
 
@@ -190,14 +192,15 @@ void BarChartPlotter::drawValue(QPainter &p, QRect rect,
                     drawValueText(p, frameRect, flags, true, index, text);
                 }
             }
-            else
+            else if (m_valuesAlwaysShown || isHighlighted)
             {
                 drawValueText(p, rect, flags, isHighlighted, index, text);
             }
 
             break;
 
-        case Trend:*/
+        case Trend:
+        {
             int rectWidth = rect.width();
             rect.setSize(textRect.size());
             rect.moveLeft(rect.left() + (rectWidth - textRect.width()) /2);
@@ -219,17 +222,22 @@ void BarChartPlotter::drawValue(QPainter &p, QRect rect,
                 drawHighlightedValueFrame(p, rect, textRect);
             }
 
-            drawValueText(p, rect, flags, isHighlighted, index, text);
+            if (m_valuesAlwaysShown || isHighlighted)
+            {
+                drawValueText(p, rect, flags, isHighlighted, index, text);
+            }
 
-/*            break;
-    }*/
+            break;
+        }
+
+        default:;
+    }
 
 }
 
 
 void BarChartPlotter::drawValueText(QPainter &p, const QRect &rect, int flags, bool isHighlighted, const QModelIndex &index, const QString &text) const
 {
-
     if (isHighlighted)
     {
         p.setPen(QPen(highlightTextColor()));

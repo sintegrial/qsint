@@ -11,7 +11,8 @@ PlotterBase::PlotterBase(QWidget *parent) :
     m_model(0),
     m_repaint(true),
     m_antiAliasing(false),
-    m_highlight(false)
+    m_highlight(false),
+    m_valuesAlwaysShown(true)
 {
     m_axisX = m_axisY = 0;
 
@@ -121,6 +122,14 @@ void PlotterBase::setHighlightAlpha(double alpha)
 void PlotterBase::setTextFormat(const QString &textFormat)
 {
     m_textFormat = textFormat;
+
+    update();
+}
+
+
+void PlotterBase::showValuesAlways(bool on)
+{
+    m_valuesAlwaysShown = on;
 
     update();
 }

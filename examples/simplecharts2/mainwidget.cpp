@@ -20,7 +20,7 @@ MainWidget::MainWidget(QWidget *parent) :
     itemModel->setHeaderData(0, Qt::Vertical, QColor(Qt::red), Qt::BackgroundRole);
     itemModel->setHeaderData(0, Qt::Vertical, QColor(Qt::white), Qt::ForegroundRole);
     itemModel->setHeaderData(1, Qt::Vertical, QColor(Qt::blue), Qt::BackgroundRole);
-    itemModel->setHeaderData(1, Qt::Vertical, QColor(Qt::darkBlue), Qt::ForegroundRole);
+    itemModel->setHeaderData(1, Qt::Vertical, QColor(Qt::cyan), Qt::ForegroundRole);
     itemModel->setHeaderData(2, Qt::Vertical, QColor(Qt::green), Qt::BackgroundRole);
     itemModel->setHeaderData(2, Qt::Vertical, QColor(Qt::darkGreen), Qt::ForegroundRole);
     itemModel->setHeaderData(3, Qt::Vertical, QColor(Qt::yellow), Qt::BackgroundRole);
@@ -50,105 +50,105 @@ MainWidget::MainWidget(QWidget *parent) :
     /****************************************************
      *  Stacked Chart
      ****************************************************/
-    ui->Chart1->setModel(itemModel);
-    ui->Chart1->setTitle("Stacked Barchart");
-    ui->Chart1->setTitlePen(QPen(Qt::white));
-    ui->Chart1->setTitleFont(QFont("Arial", 12));
-    ui->Chart1->setBackground(QBrush(bg));
-    ui->Chart1->setBarType(QSint::BarChartPlotter::Stacked);
-    ui->Chart1->setBarOpacity(0.95);
-    ui->Chart1->setZeroLinePen(QPen(0xffa500));
-    ui->Chart1->axisY()->setRanges(-50, 50);
-    ui->Chart1->axisY()->setTicks(2, 10);
-    ui->Chart1->axisY()->setTextColor(Qt::yellow);
-    ui->Chart1->axisY()->setPen(QPen(Qt::gray));
-    ui->Chart1->axisY()->setMinorTicksPen(QPen(Qt::blue));
-    ui->Chart1->axisY()->setMinorGridPen(QPen(Qt::darkCyan, 1, Qt::DotLine));
-    ui->Chart1->axisY()->setMajorTicksPen(QPen(Qt::magenta));
-    ui->Chart1->axisY()->setMajorGridPen(QPen(Qt::darkGray));
-    ui->Chart1->axisX()->setTextColor(Qt::green);
-    ui->Chart1->axisX()->setPen(QPen(Qt::gray));
-    ui->Chart1->axisX()->setMinorTicksPen(QPen(Qt::blue));
-    ui->Chart1->axisX()->setMinorGridPen(QPen(Qt::darkBlue));
-    ui->Chart1->axisX()->setMajorTicksPen(QPen(Qt::magenta));
-    ui->Chart1->axisX()->setMajorGridPen(QPen(Qt::darkGray));
-    ui->Chart1->setHighlightBrush(QBrush(QColor(0xffa500)));
+    ui->StackedChart->setModel(itemModel);
+    ui->StackedChart->setTitle("Stacked Barchart");
+    ui->StackedChart->setTitlePen(QPen(Qt::white));
+    ui->StackedChart->setTitleFont(QFont("Arial", 12));
+    ui->StackedChart->setBackground(QBrush(bg));
+    ui->StackedChart->setBarType(QSint::BarChartPlotter::Stacked);
+    ui->StackedChart->setBarOpacity(0.95);
+    ui->StackedChart->setZeroLinePen(QPen(0xffa500));
+    ui->StackedChart->axisY()->setRanges(-50, 50);
+    ui->StackedChart->axisY()->setTicks(2, 10);
+    ui->StackedChart->axisY()->setTextColor(Qt::yellow);
+    ui->StackedChart->axisY()->setPen(QPen(Qt::gray));
+    ui->StackedChart->axisY()->setMinorTicksPen(QPen(Qt::blue));
+    ui->StackedChart->axisY()->setMinorGridPen(QPen(Qt::darkCyan, 1, Qt::DotLine));
+    ui->StackedChart->axisY()->setMajorTicksPen(QPen(Qt::magenta));
+    ui->StackedChart->axisY()->setMajorGridPen(QPen(Qt::darkGray));
+    ui->StackedChart->axisX()->setTextColor(Qt::green);
+    ui->StackedChart->axisX()->setPen(QPen(Qt::gray));
+    ui->StackedChart->axisX()->setMinorTicksPen(QPen(Qt::blue));
+    ui->StackedChart->axisX()->setMinorGridPen(QPen(Qt::darkBlue));
+    ui->StackedChart->axisX()->setMajorTicksPen(QPen(Qt::magenta));
+    ui->StackedChart->axisX()->setMajorGridPen(QPen(Qt::darkGray));
+    ui->StackedChart->setHighlightBrush(QBrush(QColor(0xffa500)));
 
-    connect(ui->Chart1, SIGNAL(entered(const QModelIndex&)),
+    connect(ui->StackedChart, SIGNAL(entered(const QModelIndex&)),
             this, SLOT(showTooltip1(const QModelIndex&)));
 
     /****************************************************
      *  Pie Chart
      ****************************************************/
-    ui->Chart2->setTitle("Pie Chart");
-    ui->Chart2->setTitlePen(QPen(Qt::green));
-    ui->Chart2->setTitleFont(QFont("Arial", 12));
-    ui->Chart2->setBackground(QBrush(bg));
-    ui->Chart2->setModel(itemModel);
-    ui->Chart2->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
-    ui->Chart2->setHighlightAlpha(0.5);
+    ui->PieChart->setTitle("Pie Chart");
+    ui->PieChart->setTitlePen(QPen(Qt::green));
+    ui->PieChart->setTitleFont(QFont("Arial", 12));
+    ui->PieChart->setBackground(QBrush(bg));
+    ui->PieChart->setModel(itemModel);
+    ui->PieChart->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
+    ui->PieChart->setHighlightAlpha(0.5);
     QFont pieFont("Arial", 12, QFont::Bold);
-    ui->Chart2->setFont(pieFont);
+    ui->PieChart->setFont(pieFont);
 
-    connect(ui->Chart1, SIGNAL(clicked(const QModelIndex&)),
-            ui->Chart2, SLOT(setActiveIndex(const QModelIndex&)));
+    connect(ui->StackedChart, SIGNAL(clicked(const QModelIndex&)),
+            ui->PieChart, SLOT(setActiveIndex(const QModelIndex&)));
 
     /****************************************************
      *  Trend Chart
      ****************************************************/
-    ui->Chart3->setBackground(QBrush(bg));
-    ui->Chart3->setModel(itemModel);
-    ui->Chart3->setTitle("Trend Chart");
-    ui->Chart3->setTitlePen(QPen(Qt::cyan));
-    ui->Chart3->setTitleFont(QFont("Arial", 12));
-    ui->Chart3->setBarType(QSint::BarChartPlotter::Trend);
-    ui->Chart3->setZeroLinePen(QPen(0xffa500));
-    ui->Chart3->axisY()->setRanges(-20, 20);
-    ui->Chart3->axisY()->setTextColor(Qt::yellow);
-    ui->Chart3->axisY()->setPen(QPen(Qt::gray));
-    ui->Chart3->axisY()->setMinorTicksPen(QPen(Qt::darkGray));
-    ui->Chart3->axisY()->setMajorTicksPen(QPen(Qt::lightGray));
-    ui->Chart3->axisX()->setTextColor(Qt::green);
-    ui->Chart3->axisX()->setPen(QPen(Qt::gray));
-    ui->Chart3->axisX()->setMinorTicksPen(QPen(Qt::darkGray));
-    ui->Chart3->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
-    ui->Chart3->setHighlightBrush(QBrush(QColor(0xffa500)));
+    ui->TrendChart->setBackground(QBrush(bg));
+    ui->TrendChart->setModel(itemModel);
+    ui->TrendChart->setTitle("Trend Chart");
+    ui->TrendChart->setTitlePen(QPen(Qt::cyan));
+    ui->TrendChart->setTitleFont(QFont("Arial", 12));
+    ui->TrendChart->setBarType(QSint::BarChartPlotter::Trend);
+    ui->TrendChart->setZeroLinePen(QPen(0xffa500));
+    ui->TrendChart->axisY()->setRanges(-20, 20);
+    ui->TrendChart->axisY()->setTextColor(Qt::yellow);
+    ui->TrendChart->axisY()->setPen(QPen(Qt::gray));
+    ui->TrendChart->axisY()->setMinorTicksPen(QPen(Qt::darkGray));
+    ui->TrendChart->axisY()->setMajorTicksPen(QPen(Qt::lightGray));
+    ui->TrendChart->axisX()->setTextColor(Qt::green);
+    ui->TrendChart->axisX()->setPen(QPen(Qt::gray));
+    ui->TrendChart->axisX()->setMinorTicksPen(QPen(Qt::darkGray));
+    ui->TrendChart->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
+    ui->TrendChart->setHighlightBrush(QBrush(QColor(0xffa500)));
 
     /****************************************************
      *  Column Chart
      ****************************************************/
-    ui->Chart4->setBackground(QBrush(bg));
-    ui->Chart4->setModel(itemModel);
-    ui->Chart4->setTitle("Column Barchart");
-    ui->Chart4->setTitlePen(QPen(Qt::green));
-    ui->Chart4->setTitleFont(QFont("Arial", 12));
-    ui->Chart4->setBarType(QSint::BarChartPlotter::Columns);
-    ui->Chart4->setZeroLinePen(QPen(0xffa500));
-    ui->Chart4->setBarScale(0.75);
-    ui->Chart4->axisY()->setRanges(-20, 20);
-    ui->Chart4->axisY()->setTextColor(Qt::yellow);
-    ui->Chart4->axisY()->setPen(QPen(Qt::gray));
-    ui->Chart4->axisY()->setMinorTicksPen(QPen(Qt::darkGray));
-    ui->Chart4->axisY()->setMajorTicksPen(QPen(Qt::lightGray));
-    ui->Chart4->axisY()->setMinorGridPen(QPen(Qt::darkCyan, 1, Qt::DotLine));
-    ui->Chart4->axisX()->setTextColor(Qt::green);
-    ui->Chart4->axisX()->setPen(QPen(Qt::gray));
-    ui->Chart4->axisX()->setMinorTicksPen(QPen(Qt::darkGray));
-    ui->Chart4->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
-    ui->Chart4->setHighlightBrush(QBrush(QColor(0xffa500)));
+    ui->ColumnChart->setBackground(QBrush(bg));
+    ui->ColumnChart->setModel(itemModel);
+    ui->ColumnChart->setTitle("Column Barchart");
+    ui->ColumnChart->setTitlePen(QPen(Qt::green));
+    ui->ColumnChart->setTitleFont(QFont("Arial", 12));
+    ui->ColumnChart->setBarType(QSint::BarChartPlotter::Columns);
+    ui->ColumnChart->setZeroLinePen(QPen(0xffa500));
+    ui->ColumnChart->setBarScale(0.75);
+    ui->ColumnChart->axisY()->setRanges(-20, 20);
+    ui->ColumnChart->axisY()->setTextColor(Qt::yellow);
+    ui->ColumnChart->axisY()->setPen(QPen(Qt::gray));
+    ui->ColumnChart->axisY()->setMinorTicksPen(QPen(Qt::darkGray));
+    ui->ColumnChart->axisY()->setMajorTicksPen(QPen(Qt::lightGray));
+    ui->ColumnChart->axisY()->setMinorGridPen(QPen(Qt::darkCyan, 1, Qt::DotLine));
+    ui->ColumnChart->axisX()->setTextColor(Qt::green);
+    ui->ColumnChart->axisX()->setPen(QPen(Qt::gray));
+    ui->ColumnChart->axisX()->setMinorTicksPen(QPen(Qt::darkGray));
+    ui->ColumnChart->axisX()->setMajorTicksPen(QPen(Qt::lightGray));
+    ui->ColumnChart->setHighlightBrush(QBrush(QColor(0xffa500)));
 
     /****************************************************
      *  Ring Chart
      ****************************************************/
-    ui->Chart5->setTitle("Ring Chart");
-    ui->Chart5->setTitlePen(QPen(Qt::green));
-    ui->Chart5->setTitleFont(QFont("Arial", 12));
-	ui->Chart5->setBackground(QBrush(bg));
-    ui->Chart5->setModel(itemModel);
-    ui->Chart5->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
-    ui->Chart5->setHighlightAlpha(0.5);
+    ui->RingChart->setTitle("Ring Chart");
+    ui->RingChart->setTitlePen(QPen(Qt::green));
+    ui->RingChart->setTitleFont(QFont("Arial", 12));
+    ui->RingChart->setBackground(QBrush(bg));
+    ui->RingChart->setModel(itemModel);
+    ui->RingChart->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
+    ui->RingChart->setHighlightTextColor(Qt::blue);
     QFont ringFont("Arial", 10, QFont::Bold);
-    ui->Chart5->setFont(ringFont);
+    ui->RingChart->setFont(ringFont);
 }
 
 MainWidget::~MainWidget()
@@ -173,8 +173,11 @@ void MainWidget::showTooltip1(const QModelIndex& index)
     if (index.isValid())
     {
         QToolTip::showText(
-                ui->Chart1->globalMousePos(),
-                QString("Row %1   Col %2").arg(index.row()).arg(index.column())
+                ui->StackedChart->globalMousePos(),
+                //QString("Row %1   Col %2").arg(index.row()).arg(index.column())
+                QString("%1: %2")
+                    .arg(index.model()->headerData(index.row(), Qt::Vertical).toString())
+                    .arg(index.model()->data(index).toString())
                 );
     }
     else
