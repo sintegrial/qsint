@@ -98,7 +98,7 @@ void RingChart::drawContent(QPainter &p)
 }
 
 
-void RingChart::drawRing(QPainter &p, const QPoint &center, int ring, int radius1, int radius2, bool checkHighlight, double mouseAngle)
+void RingChart::drawRing(QPainter &p, const QPoint &center, int ring, int /*radius1*/, int radius2, bool checkHighlight, double mouseAngle)
 {
 	int row_count = m_model->rowCount();
 

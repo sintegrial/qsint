@@ -123,7 +123,7 @@ int ColorGrid::index() const
     return i;
 }
 
-void ColorGrid::paintEvent ( QPaintEvent * event )
+void ColorGrid::paintEvent ( QPaintEvent * /*event*/ )
 {
     QPainter p(this);
     p.fillRect(rect(), palette().button());
@@ -145,8 +145,6 @@ void ColorGrid::paintEvent ( QPaintEvent * event )
 
 void ColorGrid::mouseMoveEvent(QMouseEvent *event)
 {
-    //if (!hasFocus()) setFocus();
-
     QWidget::mouseMoveEvent(event);
 
     m_pos = event->pos();
@@ -171,7 +169,6 @@ void ColorGrid::mouseMoveEvent(QMouseEvent *event)
             if (m_pickDrag && event->buttons() & Qt::LeftButton) {
                 m_selColor = m_hlColor;
                 emit picked(m_selColor);
-                //emit accepted();
             }
         }
     }
@@ -200,7 +197,7 @@ void ColorGrid::mouseReleaseEvent ( QMouseEvent * event )
     }
 }
 
-void ColorGrid::leaveEvent ( QEvent * event )
+void ColorGrid::leaveEvent ( QEvent * /*event*/ )
 {
     QToolTip::hideText();
 

@@ -55,7 +55,7 @@ void ColorButton::setPickModeRight(const PickMode& mode)
     m_modeRight = mode;
 }
 
-void ColorButton::resizeEvent ( QResizeEvent * event )
+void ColorButton::resizeEvent ( QResizeEvent * /*event*/ )
 {
     setColor(m_color);
 }

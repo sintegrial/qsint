@@ -176,7 +176,7 @@ void ActionGroup::processShow()
   setUpdatesEnabled(true);
 }
 
-void ActionGroup::paintEvent ( QPaintEvent * event )
+void ActionGroup::paintEvent ( QPaintEvent * /*event*/ )
 {
   QPainter p(this);
 
