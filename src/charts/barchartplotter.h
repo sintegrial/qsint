@@ -9,6 +9,21 @@ namespace QSint
 {
 
 
+class BarPainter
+{
+protected:
+    static void drawBarItem(QPainter &p, QRect rect,
+                             const QPen &pen, const QBrush &brush,
+                             const QModelIndex &index,
+                             double value);
+
+    static void drawValueText(QPainter &p, QRect rect, int flags,
+                             const QPen &pen, const QBrush &brush,
+                             const QModelIndex &index,
+                             double value);
+};
+
+
 /**
     \brief Class representing a barchart plotting widget.
     \since 0.2.1
@@ -27,6 +42,12 @@ class BarChartPlotter : public PlotterBase
     Q_OBJECT
 public:
     explicit BarChartPlotter(QWidget *parent = 0);
+
+    // temp
+    friend class BarPainter;
+    friend class StackedBarPainter;
+    friend class ColumnBarPainter;
+    friend class TrendPainter;
 
 
     /// \brief Defines type of the chart.
@@ -98,60 +119,11 @@ protected:
     int m_barsize_min, m_barsize_max;
     double m_scale;
     double m_opacity;
+
     BarChartType m_type;
+    BarPainter* m_barPainter;
 
     QPen m_zeroLinePen;
-
-protected:
-    class BarPainter
-    {
-    protected:
-        static void drawBarItem(QPainter &p, QRect rect,
-                                 const QPen &pen, const QBrush &brush,
-                                 const QModelIndex &index,
-                                 double value);
-
-        static void drawValueText(QPainter &p, QRect rect, int flags,
-                                 const QPen &pen, const QBrush &brush,
-                                 const QModelIndex &index,
-                                 double value);
-    };
-
-    class StackedBarPainter: public BarPainter
-    {
-    public:
-        static void draw(BarChartPlotter *plotter,
-                         QPainter &p,
-                         int count,
-                         int row_count,
-                         int p_start,
-                         int p_offs,
-                         int bar_size);
-    };
-
-    class ColumnBarPainter: public BarPainter
-    {
-    public:
-        static void draw(BarChartPlotter *plotter,
-                         QPainter &p,
-                         int count,
-                         int row_count,
-                         int p_start,
-                         int p_offs,
-                         int bar_size);
-    };
-
-    class TrendPainter: public BarPainter
-    {
-    public:
-        static void draw(BarChartPlotter *plotter,
-                         QPainter &p,
-                         int count,
-                         int row_count,
-                         int p_start,
-                         int p_offs,
-                         int bar_size);
-    };
 };
 
 

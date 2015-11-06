@@ -1,6 +1,11 @@
 #include "barchartplotter.h"
 #include "axisbase.h"
 
+// temp
+#include "stackedbarpainter.h"
+#include "columnbarpainter.h"
+#include "trendpainter.h"
+
 
 namespace QSint
 {
@@ -122,7 +127,7 @@ void BarChartPlotter::drawSegment(QPainter &p, QRect rect,
     }
     else
     {
-        QVariant v_brush(model()->data(index, Qt::BackgroundRole));
+        QVariant v_brush(index.data(Qt::BackgroundRole));
         if (v_brush.isValid())
             p.setBrush(qvariant_cast<QBrush>(v_brush));
         else
@@ -244,7 +249,7 @@ void BarChartPlotter::drawValueText(QPainter &p, const QRect &rect, int flags, b
     }
     else
     {
-        QVariant v_pen(model()->data(index, Qt::ForegroundRole));
+        QVariant v_pen(index.data(Qt::ForegroundRole));
         if (v_pen.isValid())
             p.setPen(qvariant_cast<QColor>(v_pen));
         else
@@ -269,7 +274,7 @@ QRect BarChartPlotter::drawHighlightedValueFrame(QPainter &p, const QRect &rect,
 }
 
 
-void BarChartPlotter::BarPainter::drawBarItem(QPainter &p, QRect rect,
+void BarPainter::drawBarItem(QPainter &p, QRect rect,
                                               const QPen &pen, const QBrush &brush,
                                               const QModelIndex &/*index*/, double /*value*/)
 {
@@ -279,268 +284,13 @@ void BarChartPlotter::BarPainter::drawBarItem(QPainter &p, QRect rect,
 }
 
 
-void BarChartPlotter::BarPainter::drawValueText(QPainter &p, QRect rect, int flags,
+void BarPainter::drawValueText(QPainter &p, QRect rect, int flags,
                                                 const QPen &pen, const QBrush &brush,
                                                 const QModelIndex &index, double /*value*/)
 {
     p.setPen(pen);
     p.setBrush(brush);
-    //p.drawText(rect, flags, QString::number(value));
     p.drawText(rect, flags, index.data(Qt::DisplayRole).toString());
-}
-
-
-void BarChartPlotter::StackedBarPainter::draw(
-    BarChartPlotter *plotter,
-    QPainter &p,
-    int count,
-    int row_count,
-    int p_start,
-    int p_offs,
-    int bar_size)
-{
-    bool isUnderMouse = false;
-    double valueHl;
-    QModelIndex indexHl;
-    QRect rectHl;
-
-    for (int i = 0; i < count; i++)
-    {
-        int p_d = p_start + p_offs*i + (p_offs-bar_size)/2;
-
-        double acc_value = 0;
-        int p_y = plotter->axisY()->toView(0);
-
-        double neg_value = 0;
-        int p_ny = p_y;
-
-        p.setOpacity(plotter->barOpacity());
-
-        for (int j = 0; j < row_count; j++)
-        {
-            QRect itemRect;
-
-            const QModelIndex index(plotter->model()->index(j, i));
-            double value = plotter->model()->data(index, Qt::EditRole).toDouble();
-            if (value < 0)
-            {
-                neg_value += value;
-
-                int p_h = plotter->axisY()->toView(neg_value);
-
-                itemRect = QRect(p_d, p_ny, bar_size, p_h-p_ny);
-
-                p_ny = p_h;
-            }
-            else
-            {
-                acc_value += value;
-
-                int p_h = plotter->axisY()->toView(acc_value);
-
-                itemRect = QRect(p_d, p_h, bar_size, p_y-p_h);
-
-                p_y = p_h;
-            }
-
-            // check for highlight
-            if (!isUnderMouse && !plotter->mousePos().isNull() && itemRect.contains(plotter->mousePos()))
-            {
-                isUnderMouse = true;
-                valueHl = value;
-                indexHl = index;
-                rectHl = itemRect;
-            }
-
-            // do not draw if highlighted
-            if (plotter->isHighlightEnabled() && index == indexHl)
-                continue;
-
-            plotter->drawSegment(p, itemRect, index, value, false);
-            plotter->drawValue(p, itemRect, index, value, false);
-        }
-    }
-
-    if (isUnderMouse)
-    {
-        plotter->setIndexUnderMouse(indexHl);
-
-        if (plotter->isHighlightEnabled())
-        {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
-        }
-    }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
-}
-
-
-void BarChartPlotter::ColumnBarPainter::draw(
-    BarChartPlotter *plotter,
-    QPainter &p,
-    int count,
-    int row_count,
-    int p_start,
-    int p_offs,
-    int bar_size)
-{
-    int single_bar_size = bar_size/row_count;
-    if (!single_bar_size)
-        return;
-
-    bool isUnderMouse = false;
-    double valueHl;
-    QModelIndex indexHl;
-    QRect rectHl;
-
-    for (int i = 0; i < count; i++)
-    {
-        int p_d = p_start + p_offs*i + (p_offs-bar_size)/2;
-
-        int p_y = plotter->axisY()->toView(0);
-
-        p.setOpacity(plotter->barOpacity());
-
-        for (int j = 0; j < row_count; j++)
-        {
-            const QModelIndex index(plotter->model()->index(j, i));
-            double value = plotter->model()->data(index, Qt::EditRole).toDouble();
-
-            int p_h = plotter->axisY()->toView(value);
-
-            QRect itemRect;
-
-            if (value < 0)
-            {
-                itemRect = QRect(p_d, p_y, single_bar_size, p_h-p_y);
-            }
-            else
-            {
-                itemRect = QRect(p_d, p_h, single_bar_size, p_y-p_h);
-            }
-
-            p_d += single_bar_size;
-
-            // check for highlight
-            if (!isUnderMouse && !plotter->mousePos().isNull() && itemRect.contains(plotter->mousePos()))
-            {
-                isUnderMouse = true;
-                valueHl = value;
-                indexHl = index;
-                rectHl = itemRect;
-            }
-
-            // do not draw if highlighted
-            if (plotter->isHighlightEnabled() && index == indexHl)
-                continue;
-
-            plotter->drawSegment(p, itemRect, index, value, false);
-            plotter->drawValue(p, itemRect, index, value, false);
-        }
-    }
-
-    if (isUnderMouse)
-    {
-        plotter->setIndexUnderMouse(indexHl);
-
-        if (plotter->isHighlightEnabled())
-        {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
-        }
-    }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
-}
-
-
-void BarChartPlotter::TrendPainter::draw(
-    BarChartPlotter *plotter,
-    QPainter &p,
-    int count,
-    int row_count,
-    int p_start,
-    int p_offs,
-    int /*bar_size*/)
-{
-    bool isUnderMouse = false;
-    double valueHl;
-    QModelIndex indexHl;
-    QRect rectHl;
-
-    p.save();
-    p.setRenderHint(QPainter::Antialiasing);
-
-    p.setOpacity(plotter->barOpacity());
-
-    p.setFont(plotter->font());
-
-    for (int j = 0; j < row_count; j++)
-    {
-        QPen pen(qvariant_cast<QColor>(plotter->model()->headerData(j, Qt::Vertical, Qt::ForegroundRole)));
-        QBrush brush(qvariant_cast<QBrush>(plotter->model()->headerData(j, Qt::Vertical, Qt::BackgroundRole)));
-
-        QPolygon points;
-
-        for (int i = 0; i < count; i++)
-        {
-            const QModelIndex index(plotter->model()->index(j, i));
-            double value = plotter->model()->data(index, Qt::EditRole).toDouble();
-
-            int x = p_start + p_offs*i + p_offs/2;
-            int y = plotter->axisY()->toView(value);
-            QRect itemRect(x,y,1,1);
-
-            points.append(itemRect.topLeft());
-
-            // check for object under mouse
-            if (!isUnderMouse && !plotter->mousePos().isNull() && QRect(x-3, y-3, 7, 7).contains(plotter->mousePos()))
-            {
-                isUnderMouse = true;
-                valueHl = value;
-                indexHl = index;
-                rectHl = itemRect;
-            }
-
-            if (index == indexHl && plotter->isHighlightEnabled())
-                continue;
-
-            plotter->drawValue(p, itemRect, index, value, false);
-        }
-
-        p.setPen(QPen(brush, 2));
-        p.drawPolyline(points);
-
-        //p.setPen(pen);
-        //p.setBrush(brush);
-        for (int i = 0; i < count; i++)
-        {
-            const QModelIndex index(plotter->model()->index(j, i));
-            if (index == indexHl && plotter->isHighlightEnabled())
-                continue;
-
-            double value = plotter->model()->data(index, Qt::EditRole).toDouble();
-            plotter->drawSegment(p, QRect(points.at(i), QSize(1,1)), index, value, false);
-
-            //p.drawEllipse(points.at(i), 3, 3);
-        }
-    }
-
-    if (isUnderMouse)
-    {
-        plotter->setIndexUnderMouse(indexHl);
-
-        if (plotter->isHighlightEnabled())
-        {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
-        }
-    }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
-
-    p.restore();
 }
 
 

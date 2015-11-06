@@ -10,8 +10,8 @@ PlotterBase::PlotterBase(QWidget *parent) :
     QWidget(parent),
     m_model(0),
     m_repaint(true),
-    m_antiAliasing(false),
-    m_highlight(false),
+    m_antiAliasing(true),
+    m_highlight(true),
     m_valuesAlwaysShown(true)
 {
     m_axisX = m_axisY = 0;
