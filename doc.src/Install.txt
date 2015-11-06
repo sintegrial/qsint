@@ -1,0 +1,51 @@
+/*! \page install Installation and Usage
+
+\b Installation
+
+1. Make sure that you have Qt installed on your system (if not, you can get it from http:/qt.nokia.com).
+Further we'll be calling this directory \a QSINT_ROOT.
+
+2. Unpack QSint from archive into a directory, i.e. \a c:/qsint.
+
+3. Go into this directory and either open \a qsint.pro with Qt Creator and build from IDE, or use \a qmake and \a make 
+sequence (depending on which compiler you have installed on your system).
+
+Depending on your local project/compiler settings, library and binaries will be placed into the directory \a QSINT_BUILD_ROOT
+(it can be the same as \a QSINT_ROOT, or different, i.e. \a c:/qsint-build-desktop etc.)
+
+After successful build process, you will get the library in the \a QSINT_BUILD_ROOT/lib subdirectory and examples executables
+in the \a QSINT_BUILD_ROOT/examples subdirectories.
+
+\b Usage
+
+To use QSint in your project:
+
+1. Add into your .pro file: 
+
+\code
+INCLUDEPATH += QSINT_ROOT/include
+
+// for release version
+LIBS += -LQSINT_BUILD_ROOT/lib -lqsint
+
+// for debug version
+LIBS += -LQSINT_BUILD_ROOT/lib -lqsintd
+\endcode
+
+2. In the .h/.cpp files where QSint widgets are used, put the necessary includes:
+
+\code
+// for Core module
+#include <QSint>
+
+// for Charts module
+#include <QSintCharts>
+\endcode
+
+As all the QSint classes are nested within \a QSint namespace, you would also like to use this namespace as well.
+
+\code
+using namespace QSint;
+\endcode
+
+*/

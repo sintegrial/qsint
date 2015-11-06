@@ -1,0 +1,24 @@
+/*! \mainpage QSint library manual
+
+\image html QSint.png
+
+\b QSint is a opensource collection of Qt widgets which can be used while developing own Qt-based applications.
+The library is designed to be used with Qt 4.x and 5.x versions.
+
+\b QSint::Core module contains additional Qt widget classes which are designed to be used in modern user interfaces.
+
+\b QSint::Charts module contains 2D charting components which are following Qt Model-View ideology.
+
+
+
+\b QSint is licensed under <a href="http://www.gnu.org/copyleft/lesser.html">LGPL</a> so you can use it both in commercial and non-commercial projects.
+
+See also:
+- \ref install
+- \ref changes
+
+&copy; Sintegrial Technologies 2011-2014
+<br>
+http://www.sintegrial.com
+*/
+
