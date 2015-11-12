@@ -65,12 +65,12 @@ void Slider::mousePressEvent(QMouseEvent *event)
 
         if (event->button() == Qt::LeftButton && !sr.contains(event->pos()))
         {
-            int v = value();
+            int v = minimum();
 
             if (orientation() == Qt::Vertical)
-                v = minimum() + ((maximum()-minimum()) * (height()-event->y())) / height();
+                v += ((maximum()-minimum()) * (height()-event->y())) / height();
             else
-                v = minimum() + ((maximum()-minimum()) * event->x()) / width();
+                v += ((maximum()-minimum()) * event->x()) / width();
 
             if (m_precise)
                 v = (v / singleStep()) * singleStep();
