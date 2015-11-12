@@ -92,12 +92,12 @@ public:
       */
     void setCellSize(int size);
 
-public slots:
+public Q_SLOTS:
     /** Sets current color to \a color.
       */
     void setColor(const QColor& color);
 
-signals:
+Q_SIGNALS:
     /** Emitted when user selects a color from the dialog.
 
       \a color is the picked color value.

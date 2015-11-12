@@ -42,7 +42,7 @@ public:
       */
     inline bool isOwned() const { return m_own; }
 
-public slots:
+public Q_SLOTS:
     /** Pops up the widget at global coordinates \a coord.
       */
     void show(QPoint coord);

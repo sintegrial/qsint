@@ -3,3 +3,4 @@
 #include "../src/widgets/ledwidget.h"
 #include "../src/widgets/pathpicker.h"
 #include "../src/widgets/widgetpopup.h"
+#include "../src/widgets/slider.h"

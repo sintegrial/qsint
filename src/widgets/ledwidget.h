@@ -30,7 +30,7 @@ public:
     virtual int heightForWidth(int w) const
     { return w; }
 
-public slots:
+public Q_SLOTS:
     /**
      * @brief setColor Funtion sets color of LED to \a ledColor. Highlight color is set to Qt::white.
      * @param ledColor Color to set (Qt::gray is the default value).

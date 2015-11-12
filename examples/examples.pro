@@ -4,6 +4,6 @@ CONFIG = ordered
 
 SUBDIRS = \
     actionlabel actionpanel \
-    colorgrid ledwidget pathpicker \
+    colorgrid ledwidget pathpicker slider \
     simplecharts simplecharts2
 

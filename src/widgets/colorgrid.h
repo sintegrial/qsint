@@ -139,7 +139,7 @@ public:
       */
     static ColorList* namedColors();
 
-signals:
+Q_SIGNALS:
     /** Emitted when user moves mouse cursor over the grid or changes selection
         with the cursor keys.
 
