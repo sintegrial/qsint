@@ -2,7 +2,7 @@
 #define RINGCHART_H
 
 
-#include "plotterbase.h"
+#include "ringplotbase.h"
 
 
 namespace QSint
@@ -20,22 +20,15 @@ namespace QSint
 
 	Negative values are not shown therefore.
 */
-class RingChart : public PlotterBase
+class RingChart : public RingPlotBase
 {
     Q_OBJECT
 
 public:
     RingChart(QWidget *parent = 0);
 
-    /// Sets margins between the widget borders and piechart to \a margin (default is 3).
-    void setMargin(int margin);
-    /// Retrieves current value of the margins between the widget borders and piechart.
-    inline int margin() const { return m_margin; }
-
 protected:
     virtual void drawContent(QPainter &p);
-
-    virtual void drawRing(QPainter &p, const QPoint &center, int ring, int radius1, int radius2, bool checkHighlight, double mouseAngle);
 
     virtual void drawSegment(QPainter &p, const QRect& pieRect,
                                const QModelIndex &index, double value,
@@ -46,8 +39,6 @@ protected:
                                const QModelIndex &index, double value,
                                double angle1, double angle2,
                                bool isHighlighted);
-protected:
-    int m_margin;
 };
 
 

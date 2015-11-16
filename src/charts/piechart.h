@@ -2,7 +2,7 @@
 #define PIECHART_H
 
 
-#include "plotterbase.h"
+#include "ringplotbase.h"
 
 
 namespace QSint
@@ -18,17 +18,12 @@ namespace QSint
     PieChart represents single column of the model as a pie chart diagram.
     Use setActiveIndex() method to choose the active column within the model.
 */
-class PieChart : public PlotterBase
+class PieChart : public RingPlotBase
 {
     Q_OBJECT
 
 public:
     PieChart(QWidget *parent = 0);
-
-    /// Sets margins between the widget borders and piechart to \a margin (default is 3).
-    void setMargin(int margin);
-    /// Retrieves current value of the margins between the widget borders and piechart.
-    inline int margin() const { return m_margin; }
 
 public Q_SLOTS:
     /// Sets active column to the \a index.

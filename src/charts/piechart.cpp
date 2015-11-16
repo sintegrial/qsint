@@ -8,26 +8,9 @@ namespace QSint
 
 
 PieChart::PieChart(QWidget *parent) :
-    PlotterBase(parent)
+    RingPlotBase(parent)
 {
-    setAntiAliasing(true);
-
     m_index = 0;
-
-    m_margin = 3;
-
-    m_valuesAlwaysShown = false;
-}
-
-
-void PieChart::setMargin(int margin)
-{
-    if (margin < 0 || margin == m_margin)
-        return;
-
-    m_margin = margin;
-
-    scheduleUpdate();
 }
 
 
@@ -110,60 +93,9 @@ void PieChart::drawContent(QPainter &p)
     // draw pie chart
     p.setFont(m_font);
 
-    int c = m_index;
-
-    double totalValue = 0;
-
-    for (int r = 0; r < row_count; r++)
-    {
-        const QModelIndex index(m_model->index(r, c));
-        double value = m_model->data(index).toDouble();
-
-        if (value > 0.0)
-            totalValue += value;
-    }
-
-    double startAngle = 0.0;
-    bool isHighlighted = false;
-    double angleHl1, angleHl2, valueHl;
-    QModelIndex indexHl;
-
-    for (int r = 0; r < row_count; r++)
-    {
-        const QModelIndex index(m_model->index(r, c));
-        double value = m_model->data(index).toDouble();
-
-        if (value > 0.0) {
-            double angle = 360 * value / totalValue;
-
-            if (checkHighlight && startAngle <= mouseAngle && mouseAngle <= (startAngle + angle))
-            {
-                isHighlighted = true;
-                angleHl1 = startAngle;
-                angleHl2 = angle;
-                valueHl = value;
-                indexHl = index;
-            }
-            else
-            {
-                drawSegment(p, pieRect, index, value, startAngle, angle, false);
-                //drawValue(p, pieRect, index, value, startAngle, angle, false);
-            }
-
-            startAngle += angle;
-        }
-    }
-
-    // highlight to be drawn over the other segments
-    if (isHighlighted)
-    {
-        setIndexUnderMouse(indexHl);
-
-        drawSegment(p, pieRect, indexHl, valueHl, angleHl1, angleHl2, true);
-        drawValue(p, pieRect, indexHl, valueHl, angleHl1, angleHl2, true);
-    }
-    else
-        setIndexUnderMouse(QModelIndex());
+    int r1 = wh2;
+    int r2 = wh2;
+    drawRing(p, pieRect.center(), m_index, r1, r2, checkHighlight, mouseAngle);
 }
 
 

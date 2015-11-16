@@ -7,7 +7,8 @@ HEADERS += \
     $$PWD/ringchart.h \
     $$PWD/stackedbarpainter.h \
     $$PWD/columnbarpainter.h \
-    $$PWD/trendpainter.h
+    $$PWD/trendpainter.h \
+    $$PWD/ringplotbase.h
 
 SOURCES += \
     $$PWD/axisbase.cpp \
@@ -18,4 +19,5 @@ SOURCES += \
     $$PWD/ringchart.cpp \
     $$PWD/stackedbarpainter.cpp \
     $$PWD/columnbarpainter.cpp \
-    $$PWD/trendpainter.cpp
+    $$PWD/trendpainter.cpp \
+    $$PWD/ringplotbase.cpp
