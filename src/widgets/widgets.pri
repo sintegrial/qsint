@@ -5,6 +5,7 @@ HEADERS += \
     $$PWD/ledwidget.h \
     $$PWD/pathpicker.h \
     $$PWD/widgetpopup.h \
+    $$PWD/roundprogressbar.h \
     $$PWD/slider.h
 
 SOURCES += \
@@ -13,4 +14,5 @@ SOURCES += \
     $$PWD/ledwidget.cpp \
     $$PWD/pathpicker.cpp \
     $$PWD/widgetpopup.cpp \
+    $$PWD/roundprogressbar.cpp \
     $$PWD/slider.cpp

@@ -4,3 +4,4 @@
 #include "../src/widgets/pathpicker.h"
 #include "../src/widgets/widgetpopup.h"
 #include "../src/widgets/slider.h"
+#include "../src/widgets/roundprogressbar.h"
