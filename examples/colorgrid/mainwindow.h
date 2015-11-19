@@ -21,6 +21,9 @@ protected:
 private slots:
     void on_ColorGrid1SchemeCombo_activated(int);
 
+    void on_ColorCombo1_currentColorChanged(QColor);
+    void on_ColorCombo2_currentColorChanged(QColor);
+
 private:
     Ui::MainWindow *ui;
 };

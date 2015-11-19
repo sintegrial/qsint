@@ -1,5 +1,6 @@
 #include "../src/widgets/colorbutton.h"
 #include "../src/widgets/colorgrid.h"
+#include "../src/widgets/colorcombobox.h"
 #include "../src/widgets/ledwidget.h"
 #include "../src/widgets/pathpicker.h"
 #include "../src/widgets/widgetpopup.h"

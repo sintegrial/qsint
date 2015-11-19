@@ -45,12 +45,12 @@ void ColorButton::drawColorItem(QPixmap &pm, const QColor& color)
     p.drawRect(pm.rect().adjusted(0,0,-1,-1));
 }
 
-void ColorButton::setPickModeLeft(const PickMode& mode)
+void ColorButton::setPickModeLeft(PickMode mode)
 {
     m_modeLeft = mode;
 }
 
-void ColorButton::setPickModeRight(const PickMode& mode)
+void ColorButton::setPickModeRight(PickMode mode)
 {
     m_modeRight = mode;
 }

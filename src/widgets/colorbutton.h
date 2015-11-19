@@ -60,22 +60,22 @@ public:
 
     /** Returns currently selected color.
       */
-    inline const QColor& color() const { return m_color; }
+    inline QColor color() const { return m_color; }
 
     /** Returns type of color dialog shown on left mouse click (PM_COLORGRID by default).
       \sa setPickModeLeft()
       */
-    inline const PickMode& pickModeLeft() const { return m_modeLeft; }
+    inline PickMode pickModeLeft() const { return m_modeLeft; }
     /** Returns type of color dialog shown on right mouse click (PM_NONE by default).
       \sa pickModeRight()
       */
-    inline const PickMode& pickModeRight() const { return m_modeRight; }
+    inline PickMode pickModeRight() const { return m_modeRight; }
     /** Sets type of color dialog shown on left mouse click to \a mode.
       */
-    void setPickModeLeft(const PickMode& mode);
+    void setPickModeLeft(PickMode mode);
     /** Sets type of color dialog shown on right mouse click to \a mode.
       */
-    void setPickModeRight(const PickMode& mode);
+    void setPickModeRight(PickMode mode);
 
     /** Returns currently active color scheme (by default, defaultColors() is used).
       \sa setScheme()

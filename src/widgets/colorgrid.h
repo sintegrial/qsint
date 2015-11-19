@@ -121,24 +121,6 @@ public:
       */
     void setScheme(ColorList *scheme);
 
-
-    /** Returns default color scheme.
-      \sa setScheme()
-      */
-    static ColorList* defaultColors();
-    /** Returns second default color scheme.
-      \sa setScheme()
-      */
-    static ColorList* defaultColors2();
-    /** Returns default color scheme based on 16 base colors.
-      \sa setScheme()
-      */
-    static ColorList* baseColors();
-    /** Returns default color scheme based on QColor::colorNames() list.
-      \sa setScheme()
-      */
-    static ColorList* namedColors();
-
 Q_SIGNALS:
     /** Emitted when user moves mouse cursor over the grid or changes selection
         with the cursor keys.
@@ -156,7 +138,6 @@ Q_SIGNALS:
 
 protected:
     virtual void paintEvent ( QPaintEvent * event );
-    virtual bool event ( QEvent * event );
     virtual void mouseMoveEvent ( QMouseEvent * event );
     virtual void mousePressEvent ( QMouseEvent * event );
     virtual void mouseReleaseEvent ( QMouseEvent * event );

@@ -6,7 +6,8 @@ HEADERS += \
     $$PWD/pathpicker.h \
     $$PWD/widgetpopup.h \
     $$PWD/roundprogressbar.h \
-    $$PWD/slider.h
+    $$PWD/slider.h \
+    $$PWD/colorcombobox.h
 
 SOURCES += \
     $$PWD/colorbutton.cpp \
@@ -15,4 +16,6 @@ SOURCES += \
     $$PWD/pathpicker.cpp \
     $$PWD/widgetpopup.cpp \
     $$PWD/roundprogressbar.cpp \
-    $$PWD/slider.cpp
+    $$PWD/slider.cpp \
+    $$PWD/colorcombobox.cpp \
+    $$PWD/colordefs.cpp
