@@ -1,7 +1,15 @@
 include(../app.pri)
 
-DESTDIR = $$OUT_PWD/..
+win32*{
+    DESTDIR = $$OUT_PWD/..
+}
+else{
+    DESTDIR = $$OUT_PWD
+}
 
 LIBS += -L$$OUT_PWD/../../lib -lqsint
 
-PRE_TARGETDEPS += $$OUT_PWD/../../lib/qsint.lib
+win32-msvc*{
+    PRE_TARGETDEPS += $$OUT_PWD/../../lib/qsint.lib
+}
+
