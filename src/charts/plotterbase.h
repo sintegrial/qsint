@@ -174,7 +174,7 @@ protected:
     virtual void mouseReleaseEvent(QMouseEvent *event);
 
     virtual void mouseMoveEvent(QMouseEvent *event);
-    virtual void leaveEvent(QMouseEvent *event);
+    virtual void leaveEvent(QEvent *event);
 
     virtual void paintEvent(QPaintEvent *event);
     virtual void resizeEvent(QResizeEvent *event);

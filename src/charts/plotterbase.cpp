@@ -9,10 +9,10 @@ namespace QSint
 PlotterBase::PlotterBase(QWidget *parent) :
     QWidget(parent),
     m_model(0),
-    m_repaint(true),
-    m_antiAliasing(true),
     m_highlight(true),
-    m_valuesAlwaysShown(true)
+    m_valuesAlwaysShown(true),
+    m_repaint(true),
+    m_antiAliasing(true)
 {
     m_axisX = m_axisY = 0;
 
@@ -244,7 +244,7 @@ void PlotterBase::mouseMoveEvent(QMouseEvent *event)
 }
 
 
-void PlotterBase::leaveEvent(QMouseEvent *event)
+void PlotterBase::leaveEvent(QEvent *event)
 {
     m_mousePos = QPoint();
     m_indexUnderMouse = m_indexClick = QModelIndex();
