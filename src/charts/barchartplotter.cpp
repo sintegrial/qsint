@@ -125,7 +125,10 @@ void BarChartPlotter::drawContent(QPainter &p)
         bar_size = qMin(m_barsize_min, p_offs);
 
 	if (m_barPainter)
-		m_barPainter->draw(this, p, count, row_count, p_start, p_offs, bar_size);
+	{
+		QModelIndex indexUnderMouse = m_barPainter->draw(this, mousePos(), p, count, row_count, p_start, p_offs, bar_size);
+		setIndexUnderMouse(indexUnderMouse);
+	}
 }
 
 

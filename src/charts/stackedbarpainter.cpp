@@ -7,17 +7,18 @@ namespace QSint
 {
 
 
-void StackedBarPainter::draw(
+QModelIndex StackedBarPainter::draw(
     BarChartPlotter *plotter,
+	const QPoint& mousePosition,
     QPainter &p,
     int count,
     int row_count,
     int p_start,
     int p_offs,
-    int bar_size)
+    int bar_size) const
 {
     bool isUnderMouse = false;
-    double valueHl;
+    double valueHl = 0.0;
     QModelIndex indexHl;
     QRect rectHl;
 
@@ -61,7 +62,7 @@ void StackedBarPainter::draw(
             }
 
             // check for highlight
-            if (!isUnderMouse && !plotter->mousePos().isNull() && itemRect.contains(plotter->mousePos()))
+            if (!isUnderMouse && !mousePosition.isNull() && itemRect.contains(mousePosition))
             {
                 isUnderMouse = true;
                 valueHl = value;
@@ -80,16 +81,18 @@ void StackedBarPainter::draw(
 
     if (isUnderMouse)
     {
-        plotter->setIndexUnderMouse(indexHl);
-
         if (plotter->isHighlightEnabled())
         {
             drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
             drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
+
+		// item under mouse found
+		return indexHl;
     }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
+
+	// no item under mouse
+	return QModelIndex();
 }
 
 

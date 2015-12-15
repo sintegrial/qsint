@@ -13,14 +13,16 @@ class BarChartPlotter;
 class BarPainter
 {
 public:
-	virtual void draw(
+	/// Draws all the plotter items and returns index of the item under mouse.
+	virtual QModelIndex draw(
 		BarChartPlotter *plotter,
+		const QPoint& mousePosition,
 		QPainter &p,
 		int count,
 		int row_count,
 		int p_start,
 		int p_offs,
-		int bar_size) = 0;
+		int bar_size) const = 0;
 
 	virtual void drawValue(
 		BarChartPlotter *plotter,
@@ -31,14 +33,6 @@ public:
 		bool isHighlighted) const = 0;
 
 protected: 
-	virtual void drawBarItem(
-		QPainter &p, 
-		QRect rect,
-		const QPen &pen, 
-		const QBrush &brush,
-		const QModelIndex &index,
-		double value);
-
 	virtual void drawValueText(
 		BarChartPlotter *plotter,
 		QPainter &p,

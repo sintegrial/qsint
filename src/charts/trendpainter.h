@@ -11,14 +11,15 @@ namespace QSint
 class TrendPainter : public BarPainter
 {
 public:
-	virtual void draw(
+	virtual QModelIndex draw(
 		BarChartPlotter *plotter,
+		const QPoint& mousePosition,
 		QPainter &p,
 		int count,
 		int row_count,
 		int p_start,
 		int p_offs,
-		int bar_size);
+		int bar_size) const;
 
 	virtual void drawValue(
 		BarChartPlotter *plotter,

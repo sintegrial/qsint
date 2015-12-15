@@ -7,21 +7,25 @@ namespace QSint
 {
 
 
-void ColumnBarPainter::draw(
+QModelIndex ColumnBarPainter::draw(
     BarChartPlotter *plotter,
+	const QPoint& mousePosition,
     QPainter &p,
     int count,
     int row_count,
     int p_start,
     int p_offs,
-    int bar_size)
+    int bar_size) const
 {
-    int single_bar_size = bar_size/row_count;
+	if (row_count <= 0)
+		return QModelIndex();
+
+    int single_bar_size = bar_size / row_count;
     if (!single_bar_size)
-        return;
+        return QModelIndex();
 
     bool isUnderMouse = false;
-    double valueHl;
+    double valueHl = 0.0;
     QModelIndex indexHl;
     QRect rectHl;
 
@@ -54,7 +58,7 @@ void ColumnBarPainter::draw(
             p_d += single_bar_size;
 
             // check for highlight
-            if (!isUnderMouse && !plotter->mousePos().isNull() && itemRect.contains(plotter->mousePos()))
+            if (!isUnderMouse && !mousePosition.isNull() && itemRect.contains(mousePosition))
             {
                 isUnderMouse = true;
                 valueHl = value;
@@ -73,16 +77,18 @@ void ColumnBarPainter::draw(
 
     if (isUnderMouse)
     {
-        plotter->setIndexUnderMouse(indexHl);
-
         if (plotter->isHighlightEnabled())
         {
             drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
             drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
-    }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
+
+		// item under mouse found
+		return indexHl;
+	}
+
+	// no item under mouse
+	return QModelIndex();
 }
 
 

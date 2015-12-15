@@ -57,8 +57,6 @@ protected:
                                bool isHighlighted);
 protected:
     int m_index;
-
-    int m_margin;
 };
 
 

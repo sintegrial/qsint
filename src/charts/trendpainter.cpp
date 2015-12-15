@@ -7,17 +7,18 @@ namespace QSint
 {
 
 
-void TrendPainter::draw(
+QModelIndex TrendPainter::draw(
 	BarChartPlotter *plotter,
+	const QPoint& mousePosition,
     QPainter &p,
 	int count,
 	int row_count,
     int p_start,
     int p_offs,
-    int /*bar_size*/)
+    int /*bar_size*/) const
 {
     bool isUnderMouse = false;
-    double valueHl;
+    double valueHl = 0.0;
     QModelIndex indexHl;
     QRect rectHl;
 
@@ -47,7 +48,7 @@ void TrendPainter::draw(
             points.append(itemRect.topLeft());
 
             // check for object under mouse
-            if (!isUnderMouse && !plotter->mousePos().isNull() && QRect(x-3, y-3, 7, 7).contains(plotter->mousePos()))
+            if (!isUnderMouse && !mousePosition.isNull() && QRect(x-3, y-3, 7, 7).contains(mousePosition))
             {
                 isUnderMouse = true;
                 valueHl = value;
@@ -81,18 +82,16 @@ void TrendPainter::draw(
 
     if (isUnderMouse)
     {
-        plotter->setIndexUnderMouse(indexHl);
-
         if (plotter->isHighlightEnabled())
         {
             drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
             drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
     }
-    else
-        plotter->setIndexUnderMouse(QModelIndex());
 
     p.restore();
+
+	return indexHl;
 }
 
 

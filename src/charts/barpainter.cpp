@@ -6,17 +6,6 @@ namespace QSint
 {
 
 
-void BarPainter::drawBarItem(
-	QPainter &p, QRect rect,
-	const QPen &pen, const QBrush &brush,
-	const QModelIndex &/*index*/, double /*value*/)
-{
-	p.setPen(pen);
-	p.setBrush(brush);
-	p.drawRect(rect);
-}
-
-
 void BarPainter::drawValueText(
 	BarChartPlotter *plotter, 
 	QPainter &p, 
