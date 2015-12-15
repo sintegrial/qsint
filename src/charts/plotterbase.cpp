@@ -87,6 +87,14 @@ void PlotterBase::setFont(const QFont &font)
 }
 
 
+void PlotterBase::enableHighlight(bool on)
+{
+	m_highlight = on;
+
+	update();
+}
+
+
 void PlotterBase::setHighlightTextColor(const QColor &color)
 {
     m_hlTextColor = color;
