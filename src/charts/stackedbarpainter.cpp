@@ -1,5 +1,6 @@
 #include "stackedbarpainter.h"
 #include "axisbase.h"
+#include "barchartplotter.h"
 
 
 namespace QSint
@@ -72,8 +73,8 @@ void StackedBarPainter::draw(
             if (plotter->isHighlightEnabled() && index == indexHl)
                 continue;
 
-            plotter->drawSegment(p, itemRect, index, value, false);
-            plotter->drawValue(p, itemRect, index, value, false);
+            drawSegment(plotter, p, itemRect, index, value, false);
+            drawValue(plotter, p, itemRect, index, value, false);
         }
     }
 
@@ -83,12 +84,41 @@ void StackedBarPainter::draw(
 
         if (plotter->isHighlightEnabled())
         {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
+            drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
+            drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
     }
     else
         plotter->setIndexUnderMouse(QModelIndex());
+}
+
+
+void StackedBarPainter::drawValue(
+	BarChartPlotter *plotter, 
+	QPainter &p, 
+	QRect rect,
+	const QModelIndex &index, 
+	double value,
+	bool isHighlighted) const
+{
+	int flags = Qt::AlignCenter;
+
+	QString text = plotter->formattedValue(value);
+
+	QRect textRect(p.fontMetrics().boundingRect(text));
+
+	if (textRect.height() > rect.height() || textRect.width() > rect.width())
+	{
+		if (isHighlighted)
+		{
+			QRect frameRect = drawHighlightedValueFrame(plotter, p, rect, textRect);
+			drawValueText(plotter, p, frameRect, flags, true, index, text);
+		}
+	}
+	else if (plotter->valuesAlwaysShown() || isHighlighted)
+	{
+		drawValueText(plotter, p, rect, flags, isHighlighted, index, text);
+	}
 }
 
 

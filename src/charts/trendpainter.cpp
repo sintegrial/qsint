@@ -1,5 +1,6 @@
 #include "trendpainter.h"
 #include "axisbase.h"
+#include "barchartplotter.h"
 
 
 namespace QSint
@@ -7,10 +8,10 @@ namespace QSint
 
 
 void TrendPainter::draw(
-    BarChartPlotter *plotter,
+	BarChartPlotter *plotter,
     QPainter &p,
-    int count,
-    int row_count,
+	int count,
+	int row_count,
     int p_start,
     int p_offs,
     int /*bar_size*/)
@@ -57,7 +58,7 @@ void TrendPainter::draw(
             if (index == indexHl && plotter->isHighlightEnabled())
                 continue;
 
-            plotter->drawValue(p, itemRect, index, value, false);
+            drawValue(plotter, p, itemRect, index, value, false);
         }
 
         p.setPen(QPen(brush, 2));
@@ -72,7 +73,7 @@ void TrendPainter::draw(
                 continue;
 
             double value = index.data(Qt::EditRole).toDouble();
-            plotter->drawSegment(p, QRect(points.at(i), QSize(1,1)), index, value, false);
+            drawSegment(plotter, p, QRect(points.at(i), QSize(1,1)), index, value, false);
 
             //p.drawEllipse(points.at(i), 3, 3);
         }
@@ -84,14 +85,84 @@ void TrendPainter::draw(
 
         if (plotter->isHighlightEnabled())
         {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
+            drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
+            drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
     }
     else
         plotter->setIndexUnderMouse(QModelIndex());
 
     p.restore();
+}
+
+
+void TrendPainter::drawValue(
+	BarChartPlotter *plotter, 
+	QPainter &p, 
+	QRect rect,
+	const QModelIndex &index, 
+	double value,
+	bool isHighlighted) const
+{
+	int flags = Qt::AlignCenter;
+
+	QString text = plotter->formattedValue(value);
+
+	QRect textRect(p.fontMetrics().boundingRect(text));
+
+	int rectWidth = rect.width();
+	rect.setSize(textRect.size());
+	rect.moveLeft(rect.left() + (rectWidth - textRect.width()) /2);
+
+	rect.moveTop(rect.top() - rect.height()/2);
+	if (value < 0)
+		rect.moveTop(rect.top() + rect.height());
+	else
+		rect.moveTop(rect.top() - rect.height());
+
+	if (rect.width() < textRect.width() + 4)
+	{
+		rect.setWidth(textRect.width() + 4);
+		rect.moveLeft(rect.left() - 2);
+	}
+
+	if (isHighlighted)
+	{
+		drawHighlightedValueFrame(plotter, p, rect, textRect);
+	}
+
+	if (plotter->valuesAlwaysShown() || isHighlighted)
+	{
+		drawValueText(plotter, p, rect, flags, isHighlighted, index, text);
+	}
+}
+
+
+void TrendPainter::drawSegment(
+							 BarChartPlotter *plotter,
+							 QPainter &p, 
+							 QRect rect,
+							 const QModelIndex &index, 
+							 double /*value*/,
+							 bool isHighlighted) const
+{
+	if (isHighlighted)
+	{
+		p.setPen(plotter->highlightPen());
+		p.setBrush(plotter->highlightBrush());
+	}
+	else
+	{
+		QVariant v_brush(index.data(Qt::BackgroundRole));
+		if (v_brush.isValid())
+			p.setBrush(qvariant_cast<QBrush>(v_brush));
+		else
+			p.setBrush(qvariant_cast<QBrush>(index.model()->headerData(index.row(), Qt::Vertical, Qt::BackgroundRole)));
+
+		p.setPen(plotter->itemPen());
+	}
+
+	p.drawEllipse(rect.topLeft(), 3, 3);
 }
 
 

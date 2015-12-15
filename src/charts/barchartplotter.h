@@ -9,20 +9,6 @@ namespace QSint
 {
 
 
-class BarPainter
-{
-protected:
-    static void drawBarItem(QPainter &p, QRect rect,
-                             const QPen &pen, const QBrush &brush,
-                             const QModelIndex &index,
-                             double value);
-
-    static void drawValueText(QPainter &p, QRect rect, int flags,
-                             const QPen &pen, const QBrush &brush,
-                             const QModelIndex &index,
-                             double value);
-};
-
 
 /**
     \brief Class representing a barchart plotting widget.
@@ -96,25 +82,6 @@ public:
 
 protected:
     virtual void drawContent(QPainter &p);
-
-    virtual void drawSegment(QPainter &p, QRect rect,
-                              const QModelIndex &index, double value,
-                              bool isHighlighted) const;
-
-    virtual void drawValue(QPainter &p, QRect rect,
-                              const QModelIndex &index, double value,
-                              bool isHighlighted) const;
-
-    virtual void drawValueText(QPainter &p,
-                               const QRect &rect,
-                               int flags,
-                               bool isHighlighted,
-                               const QModelIndex &index,
-                               const QString &text) const;
-
-    virtual QRect drawHighlightedValueFrame(QPainter &p,
-                                           const QRect &rect,
-                                           const QRect &textRect) const;
 
     int m_barsize_min, m_barsize_max;
     double m_scale;

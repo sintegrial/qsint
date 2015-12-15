@@ -1,5 +1,6 @@
 #include "columnbarpainter.h"
 #include "axisbase.h"
+#include "barchartplotter.h"
 
 
 namespace QSint
@@ -65,8 +66,8 @@ void ColumnBarPainter::draw(
             if (plotter->isHighlightEnabled() && index == indexHl)
                 continue;
 
-            plotter->drawSegment(p, itemRect, index, value, false);
-            plotter->drawValue(p, itemRect, index, value, false);
+            drawSegment(plotter, p, itemRect, index, value, false);
+            drawValue(plotter, p, itemRect, index, value, false);
         }
     }
 
@@ -76,12 +77,55 @@ void ColumnBarPainter::draw(
 
         if (plotter->isHighlightEnabled())
         {
-            plotter->drawSegment(p, rectHl, indexHl, valueHl, true);
-            plotter->drawValue(p, rectHl, indexHl, valueHl, true);
+            drawSegment(plotter, p, rectHl, indexHl, valueHl, true);
+            drawValue(plotter, p, rectHl, indexHl, valueHl, true);
         }
     }
     else
         plotter->setIndexUnderMouse(QModelIndex());
+}
+
+
+void ColumnBarPainter::drawValue(
+	BarChartPlotter *plotter, 
+	QPainter &p, 
+	QRect rect,
+	const QModelIndex &index, 
+	double value,
+	bool isHighlighted) const
+{
+	int flags = Qt::AlignCenter;
+
+	QString text = plotter->formattedValue(value);
+
+	QRect textRect(p.fontMetrics().boundingRect(text));
+
+	if (value < 0)
+	{
+		flags = Qt::AlignHCenter | Qt::AlignTop;
+		rect.setTop(rect.bottom() + 4);
+		rect.setHeight(textRect.height());
+	}
+	else
+	{
+		flags = Qt::AlignHCenter | Qt::AlignBottom;
+		rect.setTop(rect.top() - textRect.height() - 4);
+		rect.setHeight(textRect.height());
+	}
+
+	if (rect.width() < textRect.width() + 4)
+		rect.setWidth(textRect.width() + 4);
+
+	if (isHighlighted)
+	{
+		flags = Qt::AlignCenter;
+		QRect frameRect = drawHighlightedValueFrame(plotter, p, rect, textRect);
+		drawValueText(plotter, p, frameRect, flags, true, index, text);
+	}
+	else if (plotter->valuesAlwaysShown())
+	{
+		drawValueText(plotter, p, rect, flags, false, index, text);
+	}
 }
 
 

@@ -1,14 +1,15 @@
 HEADERS += \
     $$PWD/axisbase.h \
-    $$PWD/barchartplotter.h \
-    $$PWD/paintscheme.h \
-    $$PWD/piechart.h \
     $$PWD/plotterbase.h \
+    $$PWD/paintscheme.h \
+    $$PWD/ringplotbase.h \
+    $$PWD/piechart.h \
     $$PWD/ringchart.h \
+    $$PWD/barchartplotter.h \
+    $$PWD/barpainter.h \
     $$PWD/stackedbarpainter.h \
     $$PWD/columnbarpainter.h \
-    $$PWD/trendpainter.h \
-    $$PWD/ringplotbase.h
+    $$PWD/trendpainter.h
 
 SOURCES += \
     $$PWD/axisbase.cpp \
@@ -17,6 +18,7 @@ SOURCES += \
     $$PWD/piechart.cpp \
     $$PWD/plotterbase.cpp \
     $$PWD/ringchart.cpp \
+    $$PWD/barpainter.cpp \
     $$PWD/stackedbarpainter.cpp \
     $$PWD/columnbarpainter.cpp \
     $$PWD/trendpainter.cpp \
