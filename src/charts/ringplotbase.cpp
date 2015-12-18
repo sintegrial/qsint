@@ -6,7 +6,8 @@ namespace QSint
 
 
 RingPlotBase::RingPlotBase(QWidget *parent)
-    : PlotterBase(parent)
+: PlotterBase(parent),
+  m_showNegatives(true)
 {
     setAntiAliasing(true);
 
@@ -27,6 +28,17 @@ void RingPlotBase::setMargin(int margin)
 }
 
 
+void RingPlotBase::enableNegatives(bool on)
+{
+    if (m_showNegatives == on)
+        return;
+
+    m_showNegatives = on;
+
+    scheduleUpdate();
+}
+
+
 void RingPlotBase::drawRing(QPainter &p, const QPoint &center, int ring, int /*radius1*/, int radius2, bool checkHighlight, double mouseAngle)
 {
     int row_count = m_model->rowCount();
@@ -41,6 +53,9 @@ void RingPlotBase::drawRing(QPainter &p, const QPoint &center, int ring, int /*r
 
         if (value > 0.0)
             totalValue += value;
+        else
+            if (m_showNegatives)
+                totalValue += -value;
     }
 
     // draw segments
@@ -57,10 +72,8 @@ void RingPlotBase::drawRing(QPainter &p, const QPoint &center, int ring, int /*r
         const QModelIndex index(m_model->index(r, ring));
         double value = m_model->data(index).toDouble();
 
-        if (value > 0.0) {
-            double angle = 360 * value / totalValue;
-
-
+        if (value > 0.0 || m_showNegatives) {
+            double angle = 360 * qAbs(value) / totalValue;
 
             if (checkHighlight && startAngle <= mouseAngle && mouseAngle <= (startAngle + angle))
             {

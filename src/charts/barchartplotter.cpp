@@ -32,33 +32,35 @@ BarChartPlotter::BarChartPlotter(QWidget *parent) :
 
 void BarChartPlotter::setBarType(BarChartType type)
 {
-    if (type != m_type || !m_barPainter)
-	{
-		m_type = type;
+    switch (type)
+    {
+    case Stacked:
+        setBarPainter(&s_stackedPainter);
+        break;
 
-		delete m_barPainter;
+    case Columns:
+        setBarPainter(&s_columnPainter);
+        break;
 
-		switch (m_type)
-		{
-		case Stacked:
-			m_barPainter = new StackedBarPainter();
-			break;
+    case Trend:
+        setBarPainter(&s_trendPainter);
+        break;
 
-		case Columns:
-			m_barPainter = new ColumnBarPainter();
-			break;
+    default:
+        setBarPainter(NULL);
 
-		case Trend:
-			m_barPainter = new TrendPainter();
-			break;
+        Q_ASSERT(false);
+        break;
+    }
+}
 
-		default:
-            m_barPainter = NULL;
 
-			Q_ASSERT(false);
-			break;
-		}
-	}
+void BarChartPlotter::setBarPainter(BarPainter *painter)
+{
+    if (painter != m_barPainter)
+    {
+        m_barPainter = painter;
+    }
 }
 
 
@@ -130,6 +132,12 @@ void BarChartPlotter::drawContent(QPainter &p)
 		setIndexUnderMouse(indexUnderMouse);
 	}
 }
+
+
+// static predefined painters
+StackedBarPainter BarChartPlotter::s_stackedPainter;
+ColumnBarPainter BarChartPlotter::s_columnPainter;
+TrendPainter BarChartPlotter::s_trendPainter;
 
 
 } // namespace

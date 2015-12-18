@@ -19,6 +19,13 @@ public:
     /// Retrieves current value of the margins between the widget borders and piechart.
     inline int margin() const { return m_margin; }
 
+    /// Enables/disables showing of negative values.
+    /// \since 0.3
+    void enableNegatives(bool on = true);
+    /// Checks if negative values allowed (see enableNegatives()).
+    /// \since 0.3
+    inline bool negativesAllowed() const { return m_showNegatives; }
+
 protected:
     virtual void drawRing(QPainter &p, const QPoint &center, int ring, int radius1, int radius2, bool checkHighlight, double mouseAngle);
 
@@ -34,6 +41,8 @@ protected:
 
 protected:
     int m_margin;
+
+    bool m_showNegatives;
 };
 
 

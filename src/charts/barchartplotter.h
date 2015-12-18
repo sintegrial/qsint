@@ -49,8 +49,11 @@ public:
 
     /// Sets the plotter type to \a type.
     void setBarType(BarChartType type);
-    /// Retrieves type of the plotter.
-    inline BarChartType barType() const { return m_type; }
+
+    /// Sets custom plotter painter. The previous painter will not be deleted automatically.
+    /// Plotter painters can be shared between several plotter instances.
+    /// \since 0.3
+    void setBarPainter(BarPainter *painter);
 
     /// Sets minimum and maximum sizes of a single bar.
     /// Valid for \b Stacked and \b Columns plotter types.
@@ -80,17 +83,21 @@ public:
     /// Retrieves zero line pen. \sa setZeroLinePen()
     inline const QPen& zeroLinePen() const { return m_zeroLinePen; }
 
+public:
+    // static predefined painters
+    static StackedBarPainter s_stackedPainter;
+    static ColumnBarPainter s_columnPainter;
+    static TrendPainter s_trendPainter;
+
 protected:
     virtual void drawContent(QPainter &p);
 
     int m_barsize_min, m_barsize_max;
     double m_scale;
     double m_opacity;
-
-    BarChartType m_type;
-    BarPainter* m_barPainter;
-
     QPen m_zeroLinePen;
+
+    BarPainter* m_barPainter;   
 };
 
 
