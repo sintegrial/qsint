@@ -10,6 +10,10 @@ namespace QSint
 class BarChartPlotter;
 
 
+/**
+ * @brief The BarPainter class is the base class for drawing contents of the BarChartPlotter data model.
+ * \since 0.3
+ */
 class BarPainter
 {
 public:

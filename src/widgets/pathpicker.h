@@ -96,7 +96,12 @@ public:
 
     /** Returns the default directory which is open when showing the dialog.
       */
-    inline const QString& defaultDirectory() const { return m_dir; }
+	inline QString defaultDirectory() const { return m_dir; }
+
+	/** Returns the currently chosen directory.
+	 * \since 0.3
+	  */
+	inline QString currentDirectory() const { return m_editor->text(); }
 
     /** Defines the file name filters applied to the filenames.
       */
@@ -104,7 +109,7 @@ public:
 
     /** Returns the active file name filters applied to the filenames.
       */
-    inline const QString& filters() const { return m_filter; }
+    inline QString filters() const { return m_filter; }
 
     /** Defines the caption of the pick dialog. If no caption has been
         specified, then the default one will be shown.
@@ -114,7 +119,7 @@ public:
     /** Returns the caption of the pick dialog, or empty string if the
         default one should be used.
       */
-    inline const QString& caption() const { return m_caption; }
+    inline QString caption() const { return m_caption; }
 
     /** Returns the tool button widget.
       */

@@ -8,6 +8,10 @@ namespace QSint
 {
 
 
+/**
+ * @brief The ColumnBarPainter class implemenents default BarChartPlotter::Trend plot representation.
+ * \since 0.3
+ */
 class ColumnBarPainter : public BarPainter
 {
 public:

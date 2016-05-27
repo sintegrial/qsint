@@ -8,6 +8,10 @@ namespace QSint
 {
 
 
+/**
+ * @brief The StackedBarPainter class implemenents default BarChartPlotter::Stacked plot representation.
+ * \since 0.3
+ */
 class StackedBarPainter : public BarPainter
 {
 public:

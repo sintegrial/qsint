@@ -78,6 +78,11 @@ void PathPicker::showPickDialog()
 {
     Q_EMIT beforePicked();
 
+	QString openDir = m_editor->text().trimmed();
+	if (openDir.isEmpty()) {
+		openDir = m_dir;
+	}
+
     QString result;
     QString caption(m_caption);
 
@@ -110,20 +115,20 @@ void PathPicker::showPickDialog()
         case PF_EXISTING_DIR:
             result = QFileDialog::getExistingDirectory(NULL,
                         caption,
-                        m_dir);
+						openDir);
             break;
 
         case PF_EXISTING_FILE:
             result = QFileDialog::getOpenFileName(NULL,
                         caption,
-                        m_dir,
+						openDir,
                         m_filter);
             break;
 
         case PF_SAVE_FILE:
             result = QFileDialog::getSaveFileName(NULL,
                         caption,
-                        m_dir,
+						openDir,
                         m_filter);
             break;
 
@@ -131,7 +136,7 @@ void PathPicker::showPickDialog()
             {
             QStringList list = QFileDialog::getOpenFileNames(NULL,
                         caption,
-                        m_dir,
+						openDir,
                         m_filter);
 
             if (!list.isEmpty())
@@ -147,7 +152,7 @@ void PathPicker::showPickDialog()
 
     // use Qt dialogs instead
     if (!isSystem) {
-        QFileDialog dialog(NULL, caption, m_dir, m_filter);
+		QFileDialog dialog(NULL, caption, openDir, m_filter);
         dialog.setOption(QFileDialog::DontUseNativeDialog, true);
 
         switch (m_pickMode){
