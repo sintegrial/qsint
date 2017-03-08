@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent) :
 	ui->TimePicker->setTime(ui->TimeEdit->time());
 
 	connect(ui->TimePicker, SIGNAL(timePicked(QTime)), ui->TimeEdit, SLOT(setTime(QTime)));
+	connect(ui->TimeEdit, SIGNAL(timeChanged(QTime)), ui->TimePicker, SLOT(setTime(QTime)));
 }
 
 MainWindow::~MainWindow()

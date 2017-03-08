@@ -1,4 +1,4 @@
-TARGET = timepicker1
+TARGET = timepicker2
 
 include(../exampleapp.pri)
 

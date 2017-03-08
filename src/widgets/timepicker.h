@@ -24,6 +24,7 @@ public:
 	QTime time() const
 		{ return m_time; }
 
+public Q_SLOTS:
 	/** Sets current time.
 	*/
 	void setTime(const QTime& time);
