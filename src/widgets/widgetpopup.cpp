@@ -57,7 +57,7 @@ void WidgetPopup::show(QPoint coord)
     // important to do this before following adjustments!
     QFrame::show();
 
-    QRect screen(QDesktopWidget().availableGeometry());
+	QRect screen(QDesktopWidget().availableGeometry(coord));
     if (coord.x() < screen.x())
         coord.setX(screen.x());
     if (coord.y() < screen.y())

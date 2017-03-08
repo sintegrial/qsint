@@ -65,6 +65,14 @@ public:
       */
     explicit PathPicker(QWidget *parent = 0);
 
+	/** Returns current path text.
+	*/
+	QString currentPath() const { return m_editor->text(); }
+
+	/** Sets current path text.
+	*/
+	void setCurrentPath(const QString& path) { m_editor->setText(path); }
+
     /** Enables (default) or disables manual path editor according to \a set parameter.
       */
     void setEditorEnabled(bool set);

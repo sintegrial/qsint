@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/colorgrid.h \
     $$PWD/ledwidget.h \
     $$PWD/pathpicker.h \
+	$$PWD/timepicker.h \
     $$PWD/widgetpopup.h \
     $$PWD/roundprogressbar.h \
     $$PWD/slider.h \
@@ -14,6 +15,7 @@ SOURCES += \
     $$PWD/colorgrid.cpp \
     $$PWD/ledwidget.cpp \
     $$PWD/pathpicker.cpp \
+	$$PWD/timepicker.cpp \
     $$PWD/widgetpopup.cpp \
     $$PWD/roundprogressbar.cpp \
     $$PWD/slider.cpp \
