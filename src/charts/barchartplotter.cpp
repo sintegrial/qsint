@@ -10,6 +10,11 @@
 namespace QSint
 {
 
+// static predefined painters
+static StackedBarPainter s_stackedPainter;
+static ColumnBarPainter s_columnPainter;
+static TrendPainter s_trendPainter;
+
 
 BarChartPlotter::BarChartPlotter(QWidget *parent) :
     PlotterBase(parent),
@@ -133,11 +138,6 @@ void BarChartPlotter::drawContent(QPainter &p)
 	}
 }
 
-
-// static predefined painters
-StackedBarPainter BarChartPlotter::s_stackedPainter;
-ColumnBarPainter BarChartPlotter::s_columnPainter;
-TrendPainter BarChartPlotter::s_trendPainter;
 
 
 } // namespace

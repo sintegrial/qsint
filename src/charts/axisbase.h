@@ -74,8 +74,9 @@ public:
 
     virtual int toView(double value);
 
-
-    virtual void draw(QPainter &p);
+	// called from plot drawer
+    virtual void drawGrid(QPainter &p);
+	virtual void drawAxisLine(QPainter &p);
 
 protected:
     virtual void drawAxisData(QPainter &p);

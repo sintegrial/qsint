@@ -105,7 +105,7 @@ void TrendPainter::drawValue(
 {
 	int flags = Qt::AlignCenter;
 
-	QString text = plotter->formattedValue(value);
+	QString text = plotter->formattedValue(value, index);
 
 	QRect textRect(p.fontMetrics().boundingRect(text));
 

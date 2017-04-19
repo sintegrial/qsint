@@ -18,6 +18,16 @@ namespace QSint
 class AxisBase;
 
 
+class TextFormatter
+{
+public:
+	virtual QString text(const QModelIndex& index) const
+	{
+		return index.data().toString();
+	}
+};
+
+
 /**
     \brief Base class for 2-dimensional plotter widgets.
     \since 0.2.1
@@ -115,10 +125,14 @@ public:
     inline double highlightAlpha() const { return m_hlAlpha; }
 
 
-    /// Sets format of the value text returned by formattedValue().
+    /// Sets format of the value text returned by formattedValue(). %1 replaced by value (Qt::EditRole).
     void setTextFormat(const QString& textFormat);
     /// Retrieves format of the value text used by formattedValue().
     QString textFormat() const { return m_textFormat; }
+
+	// Sets custom text formatter for every value.
+	void setTextFormatter(TextFormatter* tf) { m_textFormatter = tf; update(); }
+	TextFormatter* textFormatter() const { return m_textFormatter; }
 
     /// Enables/disables showing of the values (when not highlighted).
     /// \since 0.3
@@ -191,7 +205,7 @@ protected:
     /// Draws content of the plotter.
     virtual void drawContent(QPainter &p) = 0;
 
-    virtual QString formattedValue(double value) const;
+	virtual QString formattedValue(double value, const QModelIndex& index) const;
 
     void setIndexUnderMouse(const QModelIndex& index);
 
@@ -213,6 +227,7 @@ protected:
     bool m_highlight;
 
     QString m_textFormat;
+	TextFormatter *m_textFormatter;
     bool m_valuesAlwaysShown;
 
     QString m_title;

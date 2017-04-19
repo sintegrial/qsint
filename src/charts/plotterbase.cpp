@@ -11,8 +11,9 @@ PlotterBase::PlotterBase(QWidget *parent) :
     m_model(0),
     m_highlight(true),
     m_valuesAlwaysShown(true),
+	m_textFormatter(NULL),
     m_repaint(true),
-    m_antiAliasing(true)
+    m_antiAliasing(false)
 {
     m_axisX = m_axisY = 0;
 
@@ -283,9 +284,9 @@ void PlotterBase::paintEvent(QPaintEvent *)
 
     drawTitle(p);
 
-    drawAxes(p);
+	drawAxes(p);
 
-    drawContent(p);
+	drawContent(p);
 
     drawForeground(p);
 }
@@ -324,16 +325,29 @@ void PlotterBase::drawTitle(QPainter &p)
 
 void PlotterBase::drawAxes(QPainter &p)
 {
+	// first grid
     if (m_axisX)
-        m_axisX->draw(p);
+        m_axisX->drawGrid(p);
 
     if (m_axisY)
-        m_axisY->draw(p);
+		m_axisY->drawGrid(p);
+
+	// then lines
+	if (m_axisX)
+		m_axisX->drawAxisLine(p);
+
+	if (m_axisY)
+		m_axisY->drawAxisLine(p);
 }
 
 
-QString PlotterBase::formattedValue(double value) const
+QString PlotterBase::formattedValue(double value, const QModelIndex& index) const
 {
+	if (m_textFormatter)
+	{
+		return m_textFormatter->text(index);
+	}
+
     if (m_textFormat.isEmpty())
     {
         return QString::number(value);

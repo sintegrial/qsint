@@ -9,6 +9,12 @@ namespace QSint
 {
 
 
+// forwards (for GCC)
+class BarPainter;
+class StackedBarPainter;
+class ColumnBarPainter;
+class TrendPainter;
+
 
 /**
     \brief Class representing a barchart plotting widget.
@@ -82,12 +88,6 @@ public:
     void setZeroLinePen(const QPen &pen);
     /// Retrieves zero line pen. \sa setZeroLinePen()
     inline const QPen& zeroLinePen() const { return m_zeroLinePen; }
-
-public:
-    // static predefined painters
-    static StackedBarPainter s_stackedPainter;
-    static ColumnBarPainter s_columnPainter;
-    static TrendPainter s_trendPainter;
 
 protected:
     virtual void drawContent(QPainter &p);

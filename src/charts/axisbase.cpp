@@ -113,6 +113,8 @@ void AxisBase::calculatePoints(int &p_start, int &p_end)
             }
             break;
         }
+
+		default:;
     }
 }
 
@@ -139,7 +141,7 @@ int AxisBase::toView(double value)
 }
 
 
-void AxisBase::draw(QPainter &p)
+void AxisBase::drawGrid(QPainter &p)
 {
     switch (m_type)
     {
@@ -152,6 +154,31 @@ void AxisBase::draw(QPainter &p)
             break;
     }
 }
+
+
+void AxisBase::drawAxisLine(QPainter &p)
+{
+	PlotterBase *plotter = (PlotterBase*)parent();
+
+	QRect dataRect(plotter->dataRect());
+
+	int p_start, p_end;
+	calculatePoints(p_start, p_end);
+
+	if (m_orient == Qt::Vertical)
+	{
+		// vertical axis
+		p.setPen(m_pen);
+		p.drawLine(m_offset + 2, p_start, m_offset + 2, p_end);
+	}
+	else
+	{
+		// horizontal axis
+		p.setPen(m_pen);
+		p.drawLine(p_start, dataRect.bottom(), p_end, dataRect.bottom());
+	}
+}
+
 
 void AxisBase::drawAxisData(QPainter &p)
 {
@@ -172,9 +199,6 @@ void AxisBase::drawAxisData(QPainter &p)
     {
         case Qt::Vertical:
         {
-            p.setPen(m_pen);
-            p.drawLine(m_offset+2, p_start, m_offset+2, p_end);
-
             if (m_minor > 1e-100)
             {
                 int prevTick = INT_MAX/2;
@@ -186,15 +210,18 @@ void AxisBase::drawAxisData(QPainter &p)
                     if (p_d < prevTick-1)
                     {
                         prevTick = p_d;
-                        p.setPen(m_minorPen);
-                        p.drawLine(m_offset+1, p_d, m_offset+3, p_d);
 
+						// grid
                         if (m_minorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_minorGridPen);
                             p.drawLine(m_offset+2, p_d, dataRect.right(), p_d);
                         }
-                    }
+
+						// tick
+						p.setPen(m_minorPen);
+						p.drawLine(m_offset + 1, p_d, m_offset + 3, p_d);
+					}
                 }
             }
 
@@ -210,40 +237,42 @@ void AxisBase::drawAxisData(QPainter &p)
                     if (p_d < prevTick-1)
                     {
                         prevTick = p_d;
-                        p.setPen(m_majorPen);
-                        p.drawLine(m_offset+0, p_d, m_offset+4, p_d);
 
+						// grid
                         if (m_majorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_majorGridPen);
                             p.drawLine(m_offset+2, p_d, dataRect.right(), p_d);
                         }
-                    }
 
+						// tick
+						p.setPen(m_majorPen);
+						p.drawLine(m_offset + 0, p_d, m_offset + 4, p_d);
+					}
+
+					// text
                     QString text(QString::number(i));
                     QRect textRect(fm.boundingRect(text));
 
                     int h = textRect.height();
-                    QRect drawRect(0, p_d - h/2, m_offset, h);
+                    QRect drawRect(0, p_d - h/2, m_offset-4, h);	// -4 - text offset
 
                     // skip paining the text
                     if (prevRect.isValid() && prevRect.intersects(drawRect))
                         continue;
+
                     prevRect = drawRect;
 
                     p.setPen(QPen(m_textColor));
                     p.drawText(drawRect, Qt::AlignRight | Qt::AlignVCenter, text);
                 }
-            }
+			}
 
             break;
         }
 
         case Qt::Horizontal:
         {
-            p.setPen(m_pen);
-            p.drawLine(p_start, dataRect.bottom(), p_end, dataRect.bottom());
-
             if (m_minor > 1e-100)
             {
                 int prevTick = -INT_MAX;
@@ -255,15 +284,18 @@ void AxisBase::drawAxisData(QPainter &p)
                     if (p_d > prevTick+1)
                     {
                         prevTick = p_d;
-                        p.setPen(m_minorPen);
-                        p.drawLine(p_d, dataRect.bottom()+1, p_d, dataRect.bottom()+3);
 
+						// grid
                         if (m_minorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_minorGridPen);
                             p.drawLine(p_d, dataRect.top(), p_d, dataRect.bottom());
                         }
-                    }
+
+						// tick
+						p.setPen(m_minorPen);
+						p.drawLine(p_d, dataRect.bottom() + 1, p_d, dataRect.bottom() + 3);
+					}
                 }
             }
 
@@ -279,16 +311,20 @@ void AxisBase::drawAxisData(QPainter &p)
                     if (p_d > prevTick+1)
                     {
                         prevTick = p_d;
-                        p.setPen(m_majorPen);
-                        p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom()+4);
 
+						// grid
                         if (m_majorGridPen != Qt::NoPen)
                         {
                             p.setPen(m_majorGridPen);
                             p.drawLine(p_d, dataRect.top(), p_d, dataRect.bottom());
                         }
-                    }
 
+						// tick
+						p.setPen(m_majorPen);
+						p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom() + 4);
+					}
+
+					// text
                     QString text(QString::number(i));
                     QRect textRect(fm.boundingRect(text));
 
@@ -298,6 +334,7 @@ void AxisBase::drawAxisData(QPainter &p)
                     // skip paining the text
                     if (prevRect.isValid() && prevRect.intersects(drawRect))
                         continue;
+
                     prevRect = drawRect;
 
                     p.setPen(QPen(m_textColor));
@@ -306,8 +343,9 @@ void AxisBase::drawAxisData(QPainter &p)
             }
 
             break;
-
         }
+
+		default:;
     }
 }
 
@@ -324,6 +362,8 @@ void AxisBase::drawAxisModel(QPainter &p)
 
     switch (m_orient)
     {
+		default:;
+
         case Qt::Vertical:
         {
             p.setPen(m_pen);
@@ -331,6 +371,7 @@ void AxisBase::drawAxisModel(QPainter &p)
 
             if (m_model)
             {
+				// to do
             }
 
             break;
@@ -338,9 +379,6 @@ void AxisBase::drawAxisModel(QPainter &p)
 
         case Qt::Horizontal:
         {
-            p.setPen(m_pen);
-            p.drawLine(p_start, dataRect.bottom(), p_end, dataRect.bottom());
-
             if (m_model)
             {
                 int count = m_model->columnCount();
@@ -357,9 +395,7 @@ void AxisBase::drawAxisModel(QPainter &p)
                     double d = (double)i / (double)count;
                     int p_d = d * (p_end - p_start) + p_start + p_offs/2;
 
-                    p.setPen(m_majorPen);
-                    p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom()+4);
-
+					// grid
                     if (m_majorGridPen != Qt::NoPen)
                     {
                         p.setPen(m_majorGridPen);
@@ -367,6 +403,11 @@ void AxisBase::drawAxisModel(QPainter &p)
                         p_line_d += p_offs;
                     }
 
+					// tick
+					p.setPen(m_majorPen);
+					p.drawLine(p_d, dataRect.bottom(), p_d, dataRect.bottom() + 4);
+
+					// text
                     QString text(m_model->headerData(i, m_orient).toString());
                     QRect textRect(fm.boundingRect(text));
 
@@ -376,6 +417,7 @@ void AxisBase::drawAxisModel(QPainter &p)
                     // skip paining the text
                     if (prevRect.isValid() && prevRect.intersects(drawRect))
                         continue;
+
                     prevRect = drawRect;
 
                     p.setPen(QPen(m_textColor));

@@ -132,7 +132,7 @@ void RingChart::drawValue(QPainter &p, const QRect& pieRect,
         p.setPen(pen);
     }
 
-    p.drawText(tx, ty, formattedValue(value));
+	p.drawText(tx, ty, formattedValue(value, index));
 }
 
 
