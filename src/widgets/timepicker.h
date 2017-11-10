@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTime>
 #include <QButtonGroup>
+#include <QToolButton>
+#include <QTimeEdit>
 
 
 namespace QSint
@@ -54,7 +56,7 @@ public:
 
 	void setTimeEdit(QTimeEdit *timeEdit) 	{ m_editor = timeEdit; }
 
-	CTimePicker*	pickerWidget()			{ return &m_timePicker; }
+    TimePicker*	pickerWidget()			{ return &m_timePicker; }
 	QDialog*		dialogWidget()			{ return m_dialog; }
 
 private Q_SLOTS:

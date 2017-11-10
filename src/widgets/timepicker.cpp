@@ -5,6 +5,7 @@
 #include <QStyle>
 #include <QToolButton>
 #include <QGroupBox>
+#include <QDialog>
 
 
 namespace QSint
