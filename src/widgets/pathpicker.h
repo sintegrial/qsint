@@ -147,6 +147,10 @@ Q_SIGNALS:
       */
     void picked(const QString& path);
 
+    /** Emitted when path is changed by some way.
+      */
+	void changed();
+
 protected Q_SLOTS:
     /** Invokes file object pick dialog. When a valid object(s) has been picked
         from the filesystem, the implementation should set the content of the editor

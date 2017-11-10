@@ -92,5 +92,42 @@ void TimePicker::minuteClicked(int minute)
 }
 
 
+// picker button
+
+TimePickerButton::TimePickerButton(QWidget *parent) : QToolButton(parent), m_editor(NULL)
+{
+	QFrame *frame = new QFrame();
+	frame->setLayout(new QVBoxLayout());
+	frame->layout()->addWidget(&m_timePicker);
+	frame->layout()->setMargin(0);
+	frame->setFrameShape(QFrame::Box);
+
+	m_dialog = new QDialog(this, Qt::Popup);
+	m_dialog->setLayout(new QVBoxLayout());
+	m_dialog->layout()->addWidget(frame);
+	m_dialog->layout()->setMargin(0);
+
+	connect(this, SIGNAL(clicked()), this, SLOT(OnButtonClicked()));
+}
+
+
+void TimePickerButton::OnButtonClicked()
+{
+	if (m_editor)
+	{
+		m_timePicker.setTime(m_editor->time());
+		connect(&m_timePicker, SIGNAL(timePicked(QTime)), m_editor, SLOT(setTime(QTime)));
+	}
+
+	m_dialog->move(parentWidget()->mapToGlobal(pos() + QPoint(-m_dialog->width() / 2, height())));
+	m_dialog->exec();
+
+	if (m_editor)
+	{
+		m_timePicker.disconnect(m_editor);
+	}
+}
+
+
 }
 

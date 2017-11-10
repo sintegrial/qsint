@@ -61,7 +61,7 @@ void RingPlotBase::drawRing(QPainter &p, const QPoint &center, int ring, int /*r
     // draw segments
     double startAngle = 0.0;
     bool isHighlighted = false;
-    double angleHl1, angleHl2, valueHl;
+	double angleHl1 = 0.0, angleHl2 = 0.0, valueHl = 0.0;
     QModelIndex indexHl;
 
     // outer rect
@@ -72,7 +72,7 @@ void RingPlotBase::drawRing(QPainter &p, const QPoint &center, int ring, int /*r
         const QModelIndex index(m_model->index(r, ring));
         double value = m_model->data(index).toDouble();
 
-        if (value > 0.0 || m_showNegatives) {
+        if (value > 0.0 || m_showNegatives){
             double angle = 360 * qAbs(value) / totalValue;
 
             if (checkHighlight && startAngle <= mouseAngle && mouseAngle <= (startAngle + angle))

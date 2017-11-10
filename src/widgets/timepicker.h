@@ -43,6 +43,30 @@ protected:
 };
 
 
+// button with popup dialog
+
+class TimePickerButton : public QToolButton
+{
+	Q_OBJECT
+
+public:
+	TimePickerButton(QWidget *parent = 0);
+
+	void setTimeEdit(QTimeEdit *timeEdit) 	{ m_editor = timeEdit; }
+
+	CTimePicker*	pickerWidget()			{ return &m_timePicker; }
+	QDialog*		dialogWidget()			{ return m_dialog; }
+
+private Q_SLOTS:
+	void OnButtonClicked();
+
+protected:
+	QDialog* m_dialog;
+	QTimeEdit* m_editor;
+	TimePicker m_timePicker;
+};
+
+
 }
 
 

@@ -30,6 +30,7 @@ PathPicker::PathPicker(QWidget *parent) :
     hbl->addWidget(m_button);
 
     connect(m_button, SIGNAL(clicked()), this, SLOT(showPickDialog()));
+	connect(m_editor, SIGNAL(editingFinished()), this, SIGNAL(changed()));
 }
 
 
@@ -194,6 +195,8 @@ void PathPicker::showPickDialog()
     m_editor->setText(result);
 
     Q_EMIT picked(result);
+
+	Q_EMIT changed();
 }
 
 
