@@ -4,6 +4,7 @@
 #include "colordefs.h"
 
 #include <QToolButton>
+#include <QWidgetAction>
 
 
 namespace QSint
@@ -37,19 +38,29 @@ class ColorButton : public QToolButton
 
     Q_PROPERTY(int cellSize READ cellSize WRITE setCellSize)
     Q_PROPERTY(QColor color READ color WRITE setColor)
-    Q_PROPERTY(PickMode pickModeLeft READ pickModeLeft WRITE setPickModeLeft)
-    Q_PROPERTY(PickMode pickModeRight READ pickModeRight WRITE setPickModeRight)
+    Q_PROPERTY(PickMode pickMode READ pickMode WRITE setPickMode)
 
 public:
     /// \brief Defines color dialog type.
-    enum PickMode {
+    enum PickMode 
+	{
         /// no dialog
         PM_NONE,
         /// standard system color dialog
         PM_COLORDIALOG,
         /// color grid based dialog
-        PM_COLORGRID
+        PM_COLORGRID,
+		/// color grid with standard color selector
+		PM_COLORGRID_DIALOG
     };
+
+    enum TextMode
+	{
+		TM_NONE,
+		TM_NAMED_COLOR,
+		TM_HEX_COLOR,
+		TM_NAMED_HEX_COLOR
+	};
 
     /** Constructor.
       */
@@ -63,39 +74,40 @@ public:
     inline QColor color() const { return m_color; }
 
     /** Returns type of color dialog shown on left mouse click (PM_COLORGRID by default).
-      \sa setPickModeLeft()
+      \sa setPickMode()
       */
-    inline PickMode pickModeLeft() const { return m_modeLeft; }
-    /** Returns type of color dialog shown on right mouse click (PM_NONE by default).
-      \sa pickModeRight()
-      */
-    inline PickMode pickModeRight() const { return m_modeRight; }
+    inline PickMode pickMode() const { return m_mode; }
     /** Sets type of color dialog shown on left mouse click to \a mode.
       */
-    void setPickModeLeft(PickMode mode);
-    /** Sets type of color dialog shown on right mouse click to \a mode.
-      */
-    void setPickModeRight(PickMode mode);
+    void setPickMode(PickMode mode);
 
     /** Returns currently active color scheme (by default, defaultColors() is used).
-      \sa setScheme()
+      \sa setColorScheme()
       */
-    inline ColorList* scheme() const { return m_colors; }
+    inline const NamedColorsScheme& colorScheme() const { return *m_colorScheme; }
     /** Sets color scheme to \a scheme.
       */
-    void setScheme(ColorList *scheme);
+    void setColorScheme(const NamedColorsScheme &scheme);
 
     /** Returns size of a color cell in pixels.
       */
-    inline int cellSize() const { return m_cellSize; }
+    int cellSize() const;
     /** Sets size of a color cell in pixels to \a size (must be > 0).
       */
     void setCellSize(int size);
+
+    void setTooltipMode(TextMode tm);
+
+    void setLabelMode(TextMode tm);
 
 public Q_SLOTS:
     /** Sets current color to \a color.
       */
     void setColor(const QColor& color);
+
+protected Q_SLOTS:
+	void onDialogButton();
+    void onClicked();
 
 Q_SIGNALS:
     /** Emitted when user selects a color from the dialog.
@@ -104,17 +116,23 @@ Q_SIGNALS:
       */
     void colorChanged(const QColor &color);
 
+    void activated(const QColor &color);
+
 protected:
     virtual void drawColorItem(QPixmap &pm, const QColor& color);
+    virtual QString getColorName(TextMode tm, const QColor& color) const;
 
     virtual void resizeEvent(QResizeEvent *event);
-    virtual void mousePressEvent(QMouseEvent *event);
 
     QColor m_color;
-    PickMode m_modeLeft, m_modeRight;
+    PickMode m_mode;
+    TextMode m_tooltipMode, m_labelMode;
 
-    int m_cellSize;
-    ColorList *m_colors;
+    ColorGrid *m_grid;
+    QWidgetAction *m_colorGridAction;
+    QAction *m_colorDialogAction;
+
+	const NamedColorsScheme *m_colorScheme;
 };
 
 

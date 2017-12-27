@@ -163,28 +163,6 @@ QIcon ColorComboBox::colorIcon(const QColor &color, int size)
 }
 
 
-//QStringList ColorComboBox::defaultColors()
-//{
-//    return QColor::colorNames();
-//}
-
-
-//QStringList ColorComboBox::baseColors()
-//{
-//    static QStringList list;
-
-//    if (list.isEmpty())
-//    {
-//        list << "white" << "lightGray" << "gray" << "darkGray" << "black"
-//                << "cyan" << "darkCyan" << "red" << "darkRed"
-//                << "magenta" << "darkMagenta" << "green" << "darkGreen"
-//                << "yellow" << /*"darkYellow"*/ "#808000" << "blue" << "darkBlue";
-//    }
-
-//    return list;
-//}
-
-
 QString ColorComboBox::colorName(const QColor &color) const
 {
     int index = findData(color);

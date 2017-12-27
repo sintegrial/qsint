@@ -1,7 +1,7 @@
 TARGET = qsint
 
 TEMPLATE = lib
-CONFIG += staticlib
+CONFIG += staticlib c++11
 
 QT += core gui widgets
 

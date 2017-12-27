@@ -22,7 +22,7 @@ ColorGrid::ColorGrid(QWidget *parent) : QWidget(parent),
 
 {
     setScheme(defaultColors());
-    setFixedSize(minimumSizeHint());
+    //setFixedSize(minimumSizeHint());
     setMouseTracking(true);
 }
 
@@ -60,7 +60,7 @@ void ColorGrid::setCellSize(int size)
 {
     if (size < 8) size = 8;
     m_cellSize = size;
-    setFixedSize(minimumSizeHint());
+    //setFixedSize(minimumSizeHint());
     redraw();
 }
 
@@ -68,11 +68,11 @@ void ColorGrid::setWidthInCells(int width)
 {
     if (width < 1) width = 1;
     m_widthInCells = width;
-    setFixedSize(minimumSizeHint());
+    //setFixedSize(minimumSizeHint());
     redraw();
 }
 
-void ColorGrid::setScheme(ColorList *list)
+void ColorGrid::setScheme(const ColorList *list)
 {
     if (!list) return;
     m_colors = list;

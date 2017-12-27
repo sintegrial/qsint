@@ -8,24 +8,25 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->setupUi(this);
 
     // ColorPopup1 uses standard color dialog
-    ui->ColorPopup1->setPickModeLeft(QSint::ColorButton::PM_COLORDIALOG);
+    ui->ColorPopup1->setPickMode(QSint::ColorButton::PM_COLORDIALOG);
 
     // ColorPopup2 uses ColorGrid color dialog (the default)
     ui->ColorPopup2->setColor(Qt::red);
-    ui->ColorPopup2->setScheme(QSint::baseColors());
+    ui->ColorPopup2->setColorScheme(QSint::BaseColors());
     // Cell size can be modified as well.
     ui->ColorPopup2->setCellSize(24);
 
     ui->ColorPopup3->setColor(Qt::green);
-    ui->ColorPopup3->setScheme(QSint::namedColors());
+    ui->ColorPopup3->setColorScheme(QSint::SvgColors());
     // Cell size can be modified as well.
     ui->ColorPopup3->setCellSize(16);
 
     ui->ColorPopup4->setColor(Qt::cyan);
-    ui->ColorPopup4->setScheme(QSint::defaultColors());
+    ui->ColorPopup4->setColorScheme(QSint::OpenOfficeColors());
 
     ui->ColorPopup5->setColor(Qt::yellow);
-    ui->ColorPopup5->setScheme(QSint::defaultColors2());
+    ui->ColorPopup5->setColorScheme(QSint::OpenOfficeColors());
+    ui->ColorPopup5->setPickMode(QSint::ColorButton::PM_COLORGRID);
 
 
     // connect grid signals to the buttons and combos

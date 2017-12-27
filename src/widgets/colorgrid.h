@@ -116,10 +116,10 @@ public:
     /** Returns currently active color scheme (by default, defaultColors() is used).
       \sa setScheme()
       */
-    inline ColorList* scheme() const { return m_colors; }
+    inline const ColorList* scheme() const { return m_colors; }
     /** Sets color scheme to \a scheme.
       */
-    void setScheme(ColorList *scheme);
+    void setScheme(const ColorList *scheme);
 
 Q_SIGNALS:
     /** Emitted when user moves mouse cursor over the grid or changes selection
@@ -159,7 +159,7 @@ protected:
 
     QColor m_hlColor, m_selColor;
 
-    ColorList *m_colors;
+    const ColorList *m_colors;
 };
 
 

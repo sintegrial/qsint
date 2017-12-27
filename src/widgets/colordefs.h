@@ -3,6 +3,8 @@
 
 
 #include <QtCore/QList>
+#include <QtCore/QMap>
+#include <QtCore/QString>
 #include <QtGui/QColor>
 
 
@@ -31,6 +33,25 @@ ColorList* baseColors();
   */
 ColorList* namedColors();
 
+ColorList* openOfficeColors();
+
+
+
+struct NamedColorsScheme
+{
+	ColorList colors;
+    QMap<QRgb, QString> colorNames;
+	int gridWidth;
+
+	void addNamedColor(const QColor& color, const QString& name);
+	QString colorName(const QColor& color) const;
+};
+
+const NamedColorsScheme& BaseColors();
+
+const NamedColorsScheme& SvgColors();
+
+const NamedColorsScheme& OpenOfficeColors();
 
 }
 
