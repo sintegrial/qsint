@@ -5,6 +5,7 @@
 #include "../src/widgets/pathpicker.h"
 #include "../src/widgets/widgetpopup.h"
 #include "../src/widgets/slider.h"
+#include "../src/widgets/slider2d.h"
 #include "../src/widgets/roundprogressbar.h"
 #include "../src/widgets/timepicker.h"
 #include "../src/widgets/qsplitbutton.h"
