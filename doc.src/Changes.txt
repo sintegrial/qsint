@@ -1,5 +1,27 @@
 /*! \page changes Changes and Features
 
+\b 0.4.0
+
+- <b>Obsoleted widgets:</b>
+	- QSint::SpinSlider
+	- QSint::OptionSlider
+	- QSint::WidgetPopup
+
+- <b>New widgets:</b>
+	- QSint::QSplitButton
+	- QSint::QFontButton
+	- QSint::QPenButton
+	- QSint::QPenComboBox
+
+- <b>Reintegrated widgets:</b>
+	- QSint::Slider2d
+	
+	
+\b 0.3.0
+
+- \a Core module split into \a Widgets and \a Action
+	
+
 \b 0.2.2
 
 Changes of \a Core module:

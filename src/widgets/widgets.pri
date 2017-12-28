@@ -1,23 +1,2 @@
-HEADERS += \
-    $$PWD/colorbutton.h \
-    $$PWD/colordefs.h \
-    $$PWD/colorgrid.h \
-    $$PWD/ledwidget.h \
-    $$PWD/pathpicker.h \
-	$$PWD/timepicker.h \
-    $$PWD/widgetpopup.h \
-    $$PWD/roundprogressbar.h \
-    $$PWD/slider.h \
-    $$PWD/colorcombobox.h
-
-SOURCES += \
-    $$PWD/colorbutton.cpp \
-    $$PWD/colorgrid.cpp \
-    $$PWD/ledwidget.cpp \
-    $$PWD/pathpicker.cpp \
-	$$PWD/timepicker.cpp \
-    $$PWD/widgetpopup.cpp \
-    $$PWD/roundprogressbar.cpp \
-    $$PWD/slider.cpp \
-    $$PWD/colorcombobox.cpp \
-    $$PWD/colordefs.cpp
+HEADERS += $$files($$PWD/*.h)
+SOURCES += $$files($$PWD/*.cpp)

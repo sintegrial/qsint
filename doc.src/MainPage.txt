@@ -2,12 +2,14 @@
 
 \image html QSint.png
 
-\b QSint is a opensource collection of Qt widgets which can be used while developing own Qt-based applications.
-The library is designed to be used with Qt 4.x and 5.x versions.
+\b QSint is an opensource collection of Qt widgets which can be used while developing own Qt-based applications.
+The library is designed to be used with Qt 5.x versions.
 
-\b QSint::Core module contains additional Qt widget classes which are designed to be used in modern user interfaces.
+\b QSint::Widgets module contains custom Qt widgets for everyday usage (color pickers, split buttons, sliders etc).
 
-\b QSint::Charts module contains 2D charting components which are following Qt Model-View ideology.
+\b QSint::Actions module contains additional Qt widgets which maintan look-and-feel of Windows XP Task Panels, Windows Vista Actions etc.
+
+\b QSint::Charts module contains 2D charting components which follow Qt Model-View ideology.
 
 
 
@@ -17,7 +19,7 @@ See also:
 - \ref install
 - \ref changes
 
-&copy; Sintegrial Technologies 2011-2014
+&copy; Sintegrial Technologies 2011-2018
 <br>
 http://www.sintegrial.com
 */
