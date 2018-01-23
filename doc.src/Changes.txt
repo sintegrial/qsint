@@ -3,7 +3,6 @@
 \b 0.4.0
 
 - <b>Obsoleted widgets:</b>
-	- QSint::SpinSlider
 	- QSint::OptionSlider
 	- QSint::WidgetPopup
 

@@ -11,3 +11,4 @@
 #include "../src/widgets/qfontbutton.h"
 #include "../src/widgets/qpenbutton.h"
 #include "../src/widgets/qpencombobox.h"
+#include "../src/widgets/spinslider.h"
