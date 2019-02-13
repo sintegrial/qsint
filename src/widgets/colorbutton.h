@@ -100,12 +100,17 @@ public:
 
     void setLabelMode(TextMode tm);
 
+	/** If \a on is true, it makes possible to select an empty (invalid) color from the drop-down menu.
+	*/
+	void enableNoColor(bool on);
+
 public Q_SLOTS:
     /** Sets current color to \a color.
       */
     void setColor(const QColor& color);
 
 protected Q_SLOTS:
+	void onNoColorButton();
 	void onDialogButton();
     void onClicked();
 
@@ -125,12 +130,14 @@ protected:
     virtual void resizeEvent(QResizeEvent *event);
 
     QColor m_color;
+	QString m_buttonText;
     PickMode m_mode;
     TextMode m_tooltipMode, m_labelMode;
 
     ColorGrid *m_grid;
     QWidgetAction *m_colorGridAction;
     QAction *m_colorDialogAction;
+	QAction *m_noColorAction;
 
 	const NamedColorsScheme *m_colorScheme;
 };

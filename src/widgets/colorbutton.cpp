@@ -32,6 +32,12 @@ ColorButton::ColorButton(QWidget *parent)
     connect(m_grid, SIGNAL(picked(const QColor&)), this, SLOT(setColor(const QColor&)));
     connect(m_grid, SIGNAL(accepted()), menu, SLOT(hide()));
 
+	QPixmap npm(cellSize(), cellSize());
+	drawColorItem(npm, QColor());
+	m_noColorAction = menu->addAction(npm, tr("No Color"));
+	connect(m_noColorAction, SIGNAL(triggered()), this, SLOT(onNoColorButton()));
+	m_noColorAction->setVisible(false);	// disabled by default
+
     m_colorGridAction = new QWidgetAction(this);
     m_colorGridAction->setDefaultWidget(m_grid);
     menu->addAction(m_colorGridAction);
@@ -54,7 +60,7 @@ ColorButton::~ColorButton()
 
 void ColorButton::setColor(const QColor& color)
 {
-    if (m_color != color)
+    if (m_color != color || text() != m_buttonText)
     {
         m_color = color;
 
@@ -62,7 +68,7 @@ void ColorButton::setColor(const QColor& color)
         drawColorItem(pm, m_color);
         setIcon(QIcon(pm));
 
-        setText(getColorName(m_labelMode, m_color));
+        setText(m_buttonText = getColorName(m_labelMode, m_color));
 
         if (m_tooltipMode != TM_NONE)
             setToolTip(getColorName(m_tooltipMode, m_color));
@@ -145,6 +151,11 @@ void ColorButton::onDialogButton()
 	}
 }
 
+void ColorButton::onNoColorButton()
+{
+	setColor(QColor());
+}
+
 void ColorButton::onClicked()
 {
     Q_EMIT activated(m_color);
@@ -183,6 +194,11 @@ void ColorButton::setTooltipMode(TextMode tm)
 void ColorButton::setLabelMode(TextMode tm)
 {
     m_labelMode = tm;
+}
+
+void ColorButton::enableNoColor(bool on)
+{
+	m_noColorAction->setVisible(on);
 }
 
 

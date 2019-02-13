@@ -19,8 +19,8 @@ See also:
 - \ref install
 - \ref changes
 
-&copy; Sintegrial Technologies 2011-2018
+&copy; Sintegrial Technologies 2011-2019
 <br>
-http://www.sintegrial.com
+https://sourceforge.net/projects/qsint
 */
 

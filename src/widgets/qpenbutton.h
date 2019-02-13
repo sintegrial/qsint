@@ -18,6 +18,17 @@ public:
 
     void setUsedRange(Qt::PenStyle start, Qt::PenStyle end);
 
+	static QPixmap drawPixmap(Qt::PenStyle style, int width = 2, QSize size = QSize(24,24));
+
+public Q_SLOTS:
+	void setPenStyle(Qt::PenStyle style);
+
+Q_SIGNALS:
+	void activated(Qt::PenStyle style);
+
+protected Q_SLOTS:
+	virtual void onAction(QAction* act);
+
 private:
     virtual void init();
 };
