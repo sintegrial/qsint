@@ -1,4 +1,4 @@
-#include "qsplitbutton.h"
+#include "qmenubutton.h"
 
 #include <QMenu>
 #include <QActionEvent>
@@ -8,7 +8,7 @@ namespace QSint
 {
 
 
-QSplitButton::QSplitButton(QWidget *parent) : QToolButton(parent)
+QMenuButton::QMenuButton(QWidget *parent) : QToolButton(parent)
 {
     connect(this, SIGNAL(triggered(QAction*)), this, SLOT(onAction(QAction*)));
 
@@ -16,7 +16,7 @@ QSplitButton::QSplitButton(QWidget *parent) : QToolButton(parent)
 }
 
 
-QAction* QSplitButton::addAction(const QString &text, const QVariant &v)
+QAction* QMenuButton::addAction(const QString &text, const QVariant &v)
 {
     QAction* act = new QAction(text, parent());
     act->setData(v);
@@ -30,7 +30,7 @@ QAction* QSplitButton::addAction(const QString &text, const QVariant &v)
 }
 
 
-QAction* QSplitButton::addAction(const QIcon &icon, const QString &text, const QVariant &v)
+QAction* QMenuButton::addAction(const QIcon &icon, const QString &text, const QVariant &v)
 {
 	QAction* act = addAction(text, v);
 	act->setIcon(icon);
@@ -38,7 +38,7 @@ QAction* QSplitButton::addAction(const QIcon &icon, const QString &text, const Q
 }
 
 
-QAction* QSplitButton::selectAction(const QVariant &data)
+QAction* QMenuButton::selectAction(const QVariant &data)
 {
     for (auto act: m_localMenu->actions())
     {
@@ -54,7 +54,7 @@ QAction* QSplitButton::selectAction(const QVariant &data)
 }
 
 
-QAction *QSplitButton::selectActionByIndex(int index)
+QAction *QMenuButton::selectActionByIndex(int index)
 {
     if (index >= 0 && index < m_localMenu->actions().count())
     {
@@ -72,7 +72,7 @@ QAction *QSplitButton::selectActionByIndex(int index)
 }
 
 
-void QSplitButton::actionEvent(QActionEvent *event)
+void QMenuButton::actionEvent(QActionEvent *event)
 {
     QToolButton::actionEvent(event);
 
@@ -91,7 +91,7 @@ void QSplitButton::actionEvent(QActionEvent *event)
 }
 
 
-void QSplitButton::onAction(QAction* act)
+void QMenuButton::onAction(QAction* act)
 {
     setDefaultAction(act);
 
@@ -100,7 +100,7 @@ void QSplitButton::onAction(QAction* act)
 }
 
 
-void QSplitButton::setDefaultAction(QAction* act)
+void QMenuButton::setDefaultAction(QAction* act)
 {
 	if (act != defaultAction())
 	{

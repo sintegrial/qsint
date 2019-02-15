@@ -10,12 +10,12 @@ namespace QSint
 {
 
 
-class QSplitButton : public QToolButton
+class QMenuButton : public QToolButton
 {
     Q_OBJECT
 
 public:
-    QSplitButton(QWidget *parent = Q_NULLPTR);
+    QMenuButton(QWidget *parent = Q_NULLPTR);
 
     QAction* addAction(const QString &text, const QVariant &data = QVariant());
     QAction* addAction(const QIcon &icon, const QString &text, const QVariant &data = QVariant());

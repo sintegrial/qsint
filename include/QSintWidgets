@@ -7,7 +7,7 @@
 #include "../src/widgets/slider2d.h"
 #include "../src/widgets/roundprogressbar.h"
 #include "../src/widgets/timepicker.h"
-#include "../src/widgets/qsplitbutton.h"
+#include "../src/widgets/qmenubutton.h"
 #include "../src/widgets/qfontbutton.h"
 #include "../src/widgets/qpenbutton.h"
 #include "../src/widgets/qpencombobox.h"
