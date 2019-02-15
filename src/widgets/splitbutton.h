@@ -6,12 +6,16 @@
 #include <QMenu>
 
 
-class CSplitButton : public QWidget
+namespace QSint
+{
+
+
+class SplitButton : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CSplitButton(QWidget *parent = nullptr);
+    explicit SplitButton(QWidget *parent = nullptr);
 
     void setDefaultAction(QAction *action);
     void setIconSize(int size);
@@ -32,5 +36,9 @@ private:
     bool m_setLast = false;
     bool m_toggle = false;
 };
+
+
+}
+
 
 #endif // CSPLITBUTTON_H

@@ -1,9 +1,13 @@
-#include "CSplitButton.h"
+#include "splitbutton.h"
 
 #include <QVBoxLayout>
 
 
-CSplitButton::CSplitButton(QWidget *parent) : QWidget(parent)
+namespace QSint
+{
+
+
+SplitButton::SplitButton(QWidget *parent) : QWidget(parent)
 {
     m_button = new QToolButton(this);
     m_button->setObjectName("Button");
@@ -26,9 +30,9 @@ CSplitButton::CSplitButton(QWidget *parent) : QWidget(parent)
     m_menu = new QMenu(this);
     m_split->setMenu(m_menu);
 
-    connect(m_menu, &QMenu::aboutToShow, this, &CSplitButton::onMenuShow);
-    connect(m_menu, &QMenu::triggered, this, &CSplitButton::onMenuTriggered);
-    connect(m_button, &QToolButton::clicked, this, &CSplitButton::onButtonClicked);
+    connect(m_menu, &QMenu::aboutToShow, this, &SplitButton::onMenuShow);
+    connect(m_menu, &QMenu::triggered, this, &SplitButton::onMenuTriggered);
+    connect(m_button, &QToolButton::clicked, this, &SplitButton::onButtonClicked);
 
     setIconSize(32);
     m_split->setMinimumHeight(24);
@@ -58,7 +62,7 @@ CSplitButton::CSplitButton(QWidget *parent) : QWidget(parent)
 }
 
 
-void CSplitButton::onMenuShow()
+void SplitButton::onMenuShow()
 {
      m_menu->clear();
      m_menu->addActions(actions());
@@ -66,7 +70,7 @@ void CSplitButton::onMenuShow()
 }
 
 
-void CSplitButton::onMenuTriggered(QAction *action)
+void SplitButton::onMenuTriggered(QAction *action)
 {
     if (m_setLast)
     {
@@ -75,7 +79,7 @@ void CSplitButton::onMenuTriggered(QAction *action)
 }
 
 
-void CSplitButton::onButtonClicked()
+void SplitButton::onButtonClicked()
 {
     const auto& acts = actions();
 
@@ -90,7 +94,7 @@ void CSplitButton::onButtonClicked()
 }
 
 
-void CSplitButton::setDefaultAction(QAction *action)
+void SplitButton::setDefaultAction(QAction *action)
 {
     // Qt bug workaround: setDefaultAction is adding action to actions
     while (m_button->actions().count())
@@ -102,20 +106,22 @@ void CSplitButton::setDefaultAction(QAction *action)
 }
 
 
-void CSplitButton::setIconSize(int size)
+void SplitButton::setIconSize(int size)
 {
     m_button->setIconSize(QSize(size, size));
 }
 
 
-void CSplitButton::setLastActionDefault(bool on)
+void SplitButton::setLastActionDefault(bool on)
 {
     m_setLast = on;
 }
 
 
-void CSplitButton::setActionsToggle(bool on)
+void SplitButton::setActionsToggle(bool on)
 {
     m_toggle = on;
 }
 
+
+}

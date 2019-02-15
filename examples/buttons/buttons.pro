@@ -4,13 +4,11 @@ include(../exampleapp.pri)
 
 
 HEADERS += \
-    mainwindow.h \
-    CSplitButton.h
+    mainwindow.h
 
 SOURCES += \
     mainwindow.cpp \
-    main.cpp \
-    CSplitButton.cpp
+    main.cpp
 
 FORMS += \
     mainwindow.ui

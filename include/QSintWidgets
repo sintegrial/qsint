@@ -12,3 +12,4 @@
 #include "../src/widgets/qpenbutton.h"
 #include "../src/widgets/qpencombobox.h"
 #include "../src/widgets/spinslider.h"
+#include "../src/widgets/splitbutton.h"
