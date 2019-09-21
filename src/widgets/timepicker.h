@@ -11,7 +11,10 @@
 namespace QSint
 {
 
-
+/**
+ * @brief The TimePicker class allows to choose a time moment in a hour:minute form via simple UI.
+ * \since 0.4
+ */
 class TimePicker : public QWidget
 {
     Q_OBJECT
