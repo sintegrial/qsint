@@ -35,14 +35,17 @@ LIBS += -LQSINT_BUILD_ROOT/lib -lqsintd
 2. In the .h/.cpp files where QSint widgets are used, put the necessary includes:
 
 \code
-// for Core module
-#include <QSint>
+// for Widgets module
+#include <QSintWidgets>
+
+// for ActionPanel module
+#include <QSintActions>
 
 // for Charts module
 #include <QSintCharts>
 \endcode
 
-As all the QSint classes are nested within \a QSint namespace, you would also like to use this namespace as well.
+As all the QSint classes are nested within \a QSint namespace, you would also like to use this namespace as well:
 
 \code
 using namespace QSint;

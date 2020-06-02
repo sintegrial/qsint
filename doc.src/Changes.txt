@@ -2,23 +2,29 @@
 
 \b 0.4.0
 
-- <b>Obsoleted widgets:</b>
-	- QSint::OptionSlider
-	- QSint::WidgetPopup
-
 - <b>New widgets:</b>
-	- QSint::QSplitButton
+	- QSint::SplitButton
+	- QSint::QMenuButton
 	- QSint::QFontButton
 	- QSint::QPenButton
 	- QSint::QPenComboBox
+	- QSint::Dial
+	- QSint::DoubleSpinComboBox
 
 - <b>Reintegrated widgets:</b>
 	- QSint::Slider2d
+
+- <b>Deprecated widgets:</b>
+	- QSint::OptionSlider
+	- QSint::WidgetPopup
+
+- <b>Charts:</b>
+	- QSint::PieChartWidget
 	
 	
 \b 0.3.0
 
-- \a Core module split into \a Widgets and \a Action
+- \a Core module split into \a Widgets and \a Actions
 	
 
 \b 0.2.2

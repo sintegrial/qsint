@@ -69,6 +69,47 @@
     </rect>
    </property>
   </widget>
+  <widget class="QSint::Dial" name="dial">
+   <property name="geometry">
+    <rect>
+     <x>100</x>
+     <y>160</y>
+     <width>111</width>
+     <height>111</height>
+    </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>12</pointsize>
+     <weight>75</weight>
+     <italic>true</italic>
+     <bold>true</bold>
+    </font>
+   </property>
+   <property name="Suffix" stdset="0">
+    <string>%</string>
+   </property>
+  </widget>
+  <widget class="QSint::DoubleSpinComboBox" name="doubleSpinBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>170</y>
+     <width>171</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QSint::SpinComboBox" name="spinBox">
+   <property name="geometry">
+    <rect>
+     <x>310</x>
+     <y>230</y>
+     <width>121</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <customwidgets>
   <customwidget>
@@ -84,6 +125,21 @@
   <customwidget>
    <class>QSint::SplitButton</class>
    <extends>QToolButton</extends>
+   <header location="global">QSintWidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>QSint::Dial</class>
+   <extends>QDial</extends>
+   <header location="global">QSintWidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>QSint::DoubleSpinComboBox</class>
+   <extends>QDoubleSpinBox</extends>
+   <header location="global">QSintWidgets</header>
+  </customwidget>
+  <customwidget>
+   <class>QSint::SpinComboBox</class>
+   <extends>QSpinBox</extends>
    <header location="global">QSintWidgets</header>
   </customwidget>
  </customwidgets>

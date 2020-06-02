@@ -10,7 +10,7 @@ namespace QSint
 
 
 /**
-    \brief Class representing a piechart widget.
+    \brief Class representing a piechart model view widget.
     \since 0.2.1
 
     \image html PieChart.png An example of PieChart
@@ -32,7 +32,8 @@ public Q_SLOTS:
     void setActiveIndex(const QModelIndex &index);
 
 protected:
-    virtual void drawContent(QPainter &p);
+    // override: RingPlotBase
+    virtual void drawData(QPainter &p, int innerRadius, int outerRadius, const QRect& pieRect);
 
     /** Draws a signle pie chart segment using QPainter \a p.
       Chart is to be drawn in the rectangle \a pieRect.
@@ -45,18 +46,8 @@ protected:
                                double angle1, double angle2,
                                bool isHighlighted);
 
-    /** Draws value signle pie chart segment using QPainter \a p.
-      Chart is to be drawn in the rectangle \a pieRect.
-      Current model index of the segment in \a index, current value is \a value.
-      \a angle1 and \a angle2 are start and end angles of the segment (in gradus).
-      \a isHighlighted is true when the segment is highlighted.
-    */
-    virtual void drawValue(QPainter &p, const QRect& pieRect,
-                               const QModelIndex &index, double value,
-                               double angle1, double angle2,
-                               bool isHighlighted);
 protected:
-    int m_index;
+    int m_index = -1;
 };
 
 

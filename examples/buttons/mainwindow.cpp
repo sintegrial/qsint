@@ -36,6 +36,14 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->SplitButton_3->addAction(printAction);
     ui->SplitButton_3->setDefaultAction(newAction);
     ui->SplitButton_3->setActionsToggle(true);
+
+
+    QList<double> values = { 0, 0.12, 100, 234.567, -10 };
+    ui->doubleSpinBox->setValueList(values);
+
+
+    QList<int> integers = {0, 10, 20, 50, 100, 1000, 10000 };
+    ui->spinBox->setValueList(integers);
 }
 
 MainWindow::~MainWindow()
