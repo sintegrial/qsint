@@ -21,10 +21,10 @@ class AxisBase;
 class TextFormatter
 {
 public:
-	virtual QString text(const QModelIndex& index) const
-	{
-		return index.data().toString();
-	}
+    virtual QString text(const QModelIndex& index) const
+    {
+        return index.data().toString();
+    }
 };
 
 
@@ -42,10 +42,13 @@ public:
     By default it is assumed that the model has 2-dimensional tabular structure.
     Each model row represents corresponding value on the X axis, with the column data values placed on Y axis.
     Axes could be accessed via axisX() and axisY() methods.
+
+    \deprecated setTitlePen(), titlePen() have to be replaced by setTitleColor() and titleColor() respectively.
 */
 class PlotterBase : public QWidget
 {
     Q_OBJECT
+
 public:
     explicit PlotterBase(QWidget *parent = 0);
 
@@ -57,12 +60,12 @@ public:
     /// \since 0.3
     inline QString title() const { return m_title; }
 
-    /// Sets title pen.
-    /// \since 0.3
-    void setTitlePen(const QPen& titlePen);
-    /// Retrieves title pen.
-    /// \since 0.3
-    inline QPen titlePen() const { return m_titlePen; }
+    /// Sets title color.
+    /// \since 0.4
+    void setTitleColor(const QColor& titleColor);
+    /// Retrieves title color.
+    /// \since 0.4
+    inline QColor titleColor() const { return m_titleColor; }
 
     /// Sets title font.
     /// \since 0.3
@@ -81,11 +84,6 @@ public:
     void setBackground(const QBrush &brush);
     /// Retrieves plotter background.
     inline const QBrush& background() const { return m_bg; }
-
-    /// Sets font of the data item to \a font.
-    void setFont(const QFont &font);
-    /// Retrieves data item font.
-    inline const QFont& font() const { return m_font; }
 
     /// Sets pen of the data item to \a pen.
     void setItemPen(const QPen &pen);
@@ -130,9 +128,9 @@ public:
     /// Retrieves format of the value text used by formattedValue().
     QString textFormat() const { return m_textFormat; }
 
-	// Sets custom text formatter for every value.
-	void setTextFormatter(TextFormatter* tf) { m_textFormatter = tf; update(); }
-	TextFormatter* textFormatter() const { return m_textFormatter; }
+    // Sets custom text formatter for every value.
+    void setTextFormatter(TextFormatter* tf) { m_textFormatter = tf; update(); }
+    TextFormatter* textFormatter() const { return m_textFormatter; }
 
     /// Enables/disables showing of the values (when not highlighted).
     /// \since 0.3
@@ -142,7 +140,7 @@ public:
     bool valuesAlwaysShown() const { return m_valuesAlwaysShown; }
 
     /// Enables (\a set=true, the default) or disables (\a set=false) painter's antialiasing.
-    inline void setAntiAliasing(bool set) { m_antiAliasing = set;}
+    inline void setAntiAliasing(bool set) { m_antiAliasing = set; update(); }
 
 
     /// Retrieves X axis object.
@@ -193,6 +191,11 @@ protected:
     virtual void paintEvent(QPaintEvent *event);
     virtual void resizeEvent(QResizeEvent *event);
 
+	/// Is called after emitting entered() signal when mouse enters an item. 
+	/// Default implementation does nothing.
+	/// \since 0.4
+	virtual void onItemEntered(const QModelIndex& /*index*/) {}
+
     /// Draws default background of the plotter.
     virtual void drawBackground(QPainter &p);
     /// Draws default foreground of the plotter.
@@ -205,7 +208,10 @@ protected:
     /// Draws content of the plotter.
     virtual void drawContent(QPainter &p) = 0;
 
-	virtual QString formattedValue(double value, const QModelIndex& index) const;
+	virtual QBrush brushFromIndex(const QModelIndex& index) const;
+	virtual QString textFromIndex(const QModelIndex& index) const;
+	virtual double valueFromIndex(const QModelIndex& index) const;
+    virtual QString formattedValue(double value, const QModelIndex& index) const;
 
     void setIndexUnderMouse(const QModelIndex& index);
 
@@ -218,7 +224,6 @@ protected:
     QPen m_pen;
 
     QPen m_itemPen;
-    QFont m_font;
 
     QColor m_hlTextColor;
     QPen m_hlPen;
@@ -227,12 +232,12 @@ protected:
     bool m_highlight;
 
     QString m_textFormat;
-	TextFormatter *m_textFormatter;
+    TextFormatter *m_textFormatter;
     bool m_valuesAlwaysShown;
 
     QString m_title;
     QFont m_titleFont;
-    QPen m_titlePen;
+    QColor m_titleColor;
 
     QPixmap m_buffer;
     bool m_repaint;

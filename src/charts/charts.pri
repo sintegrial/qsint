@@ -4,6 +4,7 @@ HEADERS += \
     $$PWD/paintscheme.h \
     $$PWD/ringplotbase.h \
     $$PWD/piechart.h \
+    $$PWD/piechartwidget.h \
     $$PWD/ringchart.h \
     $$PWD/barchartplotter.h \
     $$PWD/barpainter.h \
@@ -16,6 +17,7 @@ SOURCES += \
     $$PWD/barchartplotter.cpp \
     $$PWD/paintscheme.cpp \
     $$PWD/piechart.cpp \
+    $$PWD/piechartwidget.cpp \
     $$PWD/plotterbase.cpp \
     $$PWD/ringchart.cpp \
     $$PWD/barpainter.cpp \

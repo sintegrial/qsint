@@ -10,15 +10,15 @@ PlotterBase::PlotterBase(QWidget *parent) :
     QWidget(parent),
     m_model(0),
     m_highlight(true),
+    m_textFormatter(NULL),
     m_valuesAlwaysShown(true),
-	m_textFormatter(NULL),
     m_repaint(true),
-    m_antiAliasing(false)
+    m_antiAliasing(true)
 {
     m_axisX = m_axisY = 0;
 
     setBorderPen(QPen(Qt::gray));
-    setBackground(QBrush(Qt::lightGray));
+    setBackground(QBrush(Qt::white));
     setItemPen(QPen(Qt::darkGray));
 
     setHighlightAlpha(0.5);
@@ -40,9 +40,9 @@ void PlotterBase::setTitle(const QString &title)
 }
 
 
-void PlotterBase::setTitlePen(const QPen &titlePen)
+void PlotterBase::setTitleColor(const QColor& titleColor)
 {
-    m_titlePen = titlePen;
+    m_titleColor = titleColor;
 
     update();
 }
@@ -80,19 +80,11 @@ void PlotterBase::setItemPen(const QPen &pen)
 }
 
 
-void PlotterBase::setFont(const QFont &font)
-{
-    m_font = font;
-
-    update();
-}
-
-
 void PlotterBase::enableHighlight(bool on)
 {
-	m_highlight = on;
+    m_highlight = on;
 
-	update();
+    update();
 }
 
 
@@ -275,18 +267,22 @@ void PlotterBase::resizeEvent(QResizeEvent *event)
 
 void PlotterBase::paintEvent(QPaintEvent *)
 {
+	m_indexUnderMouse = m_indexClick = QModelIndex();
+
     QPainter p(this);
 
-    if (m_antiAliasing)
-        p.setRenderHint(QPainter::Antialiasing);
+	if (m_antiAliasing)
+	{
+        p.setRenderHints(QPainter::Antialiasing | QPainter::TextAntialiasing | QPainter::HighQualityAntialiasing);
+	}
 
     drawBackground(p);
 
     drawTitle(p);
 
-	drawAxes(p);
+    drawAxes(p);
 
-	drawContent(p);
+    drawContent(p);
 
     drawForeground(p);
 }
@@ -304,7 +300,7 @@ void PlotterBase::drawForeground(QPainter &p)
     p.setOpacity(1);
     p.setPen(m_pen);
     p.setBrush(Qt::NoBrush);
-    p.drawRect(rect().adjusted(0,0,-1,-1));
+    p.drawRect(rect());
 }
 
 
@@ -316,7 +312,7 @@ void PlotterBase::drawTitle(QPainter &p)
         titleRect.setBottom(dataRect().top()-1);
 
         p.setOpacity(1);
-        p.setPen(m_titlePen);
+        p.setPen(QPen(m_titleColor));
         p.setFont(m_titleFont);
         p.drawText(titleRect, Qt::AlignCenter, m_title);
     }
@@ -325,35 +321,78 @@ void PlotterBase::drawTitle(QPainter &p)
 
 void PlotterBase::drawAxes(QPainter &p)
 {
-	// first grid
+    // first grid
     if (m_axisX)
         m_axisX->drawGrid(p);
 
     if (m_axisY)
-		m_axisY->drawGrid(p);
+        m_axisY->drawGrid(p);
 
-	// then lines
-	if (m_axisX)
-		m_axisX->drawAxisLine(p);
+    // then lines
+    if (m_axisX)
+        m_axisX->drawAxisLine(p);
 
-	if (m_axisY)
-		m_axisY->drawAxisLine(p);
+    if (m_axisY)
+        m_axisY->drawAxisLine(p);
+}
+
+
+QBrush PlotterBase::brushFromIndex(const QModelIndex& index) const
+{
+	if (!m_model || !index.isValid())
+		return QBrush();
+
+	QVariant v = m_model->data(index, Qt::BackgroundRole);
+	if (v.canConvert<QBrush>())
+	{
+		return v.value<QBrush>();
+	}
+	else
+	{
+		return m_model->headerData(index.row(), Qt::Vertical, Qt::BackgroundRole).value<QBrush>();
+	}
+}
+
+
+QString PlotterBase::textFromIndex(const QModelIndex& index) const
+{
+	if (!m_model || !index.isValid())
+		return QString();
+
+	QString text = m_model->headerData(index.row(), Qt::Vertical, Qt::DisplayRole).toString();
+	if (!text.isNull())
+		return text;
+
+	return m_model->data(index, Qt::DisplayRole).toString();
+}
+
+
+double PlotterBase::valueFromIndex(const QModelIndex& index) const
+{
+	if (!m_model || !index.isValid())
+		return 0.0;
+
+	QVariant v1 = m_model->data(index, Qt::EditRole);
+	if (v1.canConvert<double>())
+		return v1.toDouble();
+
+	return 0.0;
 }
 
 
 QString PlotterBase::formattedValue(double value, const QModelIndex& index) const
 {
-	if (m_textFormatter)
-	{
-		return m_textFormatter->text(index);
-	}
-
-    if (m_textFormat.isEmpty())
+    if (m_textFormatter)
     {
-        return QString::number(value);
+        return m_textFormatter->text(index);
     }
 
-    return m_textFormat.arg(value);
+    if (!m_textFormat.isEmpty())
+    {
+		return m_textFormat.arg(value);
+    }
+
+	return QString::number(value);
 }
 
 
@@ -363,9 +402,10 @@ void PlotterBase::setIndexUnderMouse(const QModelIndex& index)
     {
         m_indexUnderMouse = index;
 
-        //if (index.isValid())
-            emit entered(index);
-    }
+        emit entered(index);
+
+		onItemEntered(index);
+	}
 }
 
 

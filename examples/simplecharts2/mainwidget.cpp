@@ -5,6 +5,7 @@
 
 #include <QStandardItemModel>
 #include <QToolTip>
+#include <QLabel>
 
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -52,7 +53,7 @@ MainWidget::MainWidget(QWidget *parent) :
      ****************************************************/
     ui->StackedChart->setModel(itemModel);
     ui->StackedChart->setTitle("Stacked Barchart");
-    ui->StackedChart->setTitlePen(QPen(Qt::white));
+    ui->StackedChart->setTitleColor(Qt::white);
     ui->StackedChart->setTitleFont(QFont("Arial", 12));
     ui->StackedChart->setBackground(QBrush(bg));
     ui->StackedChart->setBarType(QSint::BarChartPlotter::Stacked);
@@ -81,16 +82,24 @@ MainWidget::MainWidget(QWidget *parent) :
      *  Pie Chart
      ****************************************************/
     ui->PieChart->setTitle("Pie Chart");
-    ui->PieChart->setTitlePen(QPen(Qt::green));
+    ui->PieChart->setTitleColor(Qt::green);
     ui->PieChart->setTitleFont(QFont("Arial", 12));
     ui->PieChart->setBackground(QBrush(bg));
+	ui->PieChart->setItemPen(QPen(Qt::gray, 2));
     ui->PieChart->setModel(itemModel);
     ui->PieChart->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
     ui->PieChart->setHighlightAlpha(0.5);
     QFont pieFont("Arial", 12, QFont::Bold);
     ui->PieChart->setFont(pieFont);
 
-    connect(ui->StackedChart, SIGNAL(clicked(const QModelIndex&)),
+    ui->PieChart->setCutoutPercentage(0.3f);
+
+	auto valueLabel = new QLabel("Middle Text");
+	valueLabel->setAlignment(Qt::AlignCenter);
+	valueLabel->setStyleSheet("color: white;");
+	ui->PieChart->setCentralWidget(valueLabel);
+
+    connect(ui->PieChart, SIGNAL(clicked(const QModelIndex&)),
             ui->PieChart, SLOT(setActiveIndex(const QModelIndex&)));
 
     /****************************************************
@@ -99,7 +108,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->TrendChart->setBackground(QBrush(bg));
     ui->TrendChart->setModel(itemModel);
     ui->TrendChart->setTitle("Trend Chart");
-    ui->TrendChart->setTitlePen(QPen(Qt::cyan));
+    ui->TrendChart->setTitleColor(Qt::cyan);
     ui->TrendChart->setTitleFont(QFont("Arial", 12));
     ui->TrendChart->setBarType(QSint::BarChartPlotter::Trend);
     ui->TrendChart->setZeroLinePen(QPen(0xffa500));
@@ -120,7 +129,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->ColumnChart->setBackground(QBrush(bg));
     ui->ColumnChart->setModel(itemModel);
     ui->ColumnChart->setTitle("Column Barchart");
-    ui->ColumnChart->setTitlePen(QPen(Qt::green));
+    ui->ColumnChart->setTitleColor(Qt::green);
     ui->ColumnChart->setTitleFont(QFont("Arial", 12));
     ui->ColumnChart->setBarType(QSint::BarChartPlotter::Columns);
     ui->ColumnChart->setZeroLinePen(QPen(0xffa500));
@@ -141,14 +150,17 @@ MainWidget::MainWidget(QWidget *parent) :
      *  Ring Chart
      ****************************************************/
     ui->RingChart->setTitle("Ring Chart");
-    ui->RingChart->setTitlePen(QPen(Qt::green));
+    ui->RingChart->setTitleColor(Qt::green);
     ui->RingChart->setTitleFont(QFont("Arial", 12));
     ui->RingChart->setBackground(QBrush(bg));
+	ui->RingChart->setItemPen(QPen(QColor("orange"), 3));
     ui->RingChart->setModel(itemModel);
     ui->RingChart->setHighlightBrush(QBrush(QColor(0xffa500), Qt::Dense4Pattern));
     ui->RingChart->setHighlightTextColor(Qt::blue);
     QFont ringFont("Arial", 10, QFont::Bold);
     ui->RingChart->setFont(ringFont);
+
+    ui->RingChart->setCutoutPercentage(0.2f);
 }
 
 MainWidget::~MainWidget()

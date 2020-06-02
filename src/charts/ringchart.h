@@ -17,8 +17,6 @@ namespace QSint
 
     RingChart represents every column of the model as a ring which consists of the segments
 	with their sizes proportional to the row values.
-
-	Negative values are not shown therefore.
 */
 class RingChart : public RingPlotBase
 {
@@ -28,14 +26,10 @@ public:
     RingChart(QWidget *parent = 0);
 
 protected:
-    virtual void drawContent(QPainter &p);
+	// override: RingPlotBase
+	virtual void drawData(QPainter &p, int innerRadius, int outerRadius, const QRect& pieRect);
 
     virtual void drawSegment(QPainter &p, const QRect& pieRect,
-                               const QModelIndex &index, double value,
-                               double angle1, double angle2,
-                               bool isHighlighted);
-
-    virtual void drawValue(QPainter &p, const QRect& pieRect,
                                const QModelIndex &index, double value,
                                double angle1, double angle2,
                                bool isHighlighted);
